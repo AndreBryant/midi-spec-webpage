@@ -1,0 +1,15 @@
+:root{
+    --footer-bg: #131911;
+    --footer-text: #f4f4f3;
+}
+
+.footer {
+    position: relative;
+    bottom: 0;
+}
+.acknowledgement{
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+
+    padding: 25px 10vw; 
+}
