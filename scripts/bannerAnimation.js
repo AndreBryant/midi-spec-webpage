@@ -56,7 +56,7 @@ window.addEventListener('load', ()=>{
     const effect = new Effect(canvas.width, canvas.height);
 
     let lastTime = 0;
-    const fps = 60;
+    const fps = 40;
     const nextFrame = 1000/fps;
     let timer = 0;
 
@@ -65,11 +65,13 @@ window.addEventListener('load', ()=>{
         const deltaTime = timeStamp - lastTime;
         lastTime = timeStamp;
         if(timer > nextFrame){
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
             ctx.fillRect(0,0,canvas.width,canvas.height);
             ctx.font = effect.fontSize + 'px monospace';
             effect.digits.forEach(element => {
-                element.draw(ctx)
+                if( Math.floor(Math.random()*2) == 1){
+                    element.draw(ctx);
+                }
             });
             timer = 0;
         } else {
