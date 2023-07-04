@@ -20,17 +20,15 @@
 
 .nav-bar.sticky {
     padding: 5px 100px;
-    background: white;
 }
 
 .nav-bar.sticky a, .nav-bar.sticky .logo {
-    color: black;
 }
 
 .nav-bar .logo{
     position:relative;
     font-weight: 700;
-    color: white;/*turn this into a variable*/
+    color: white;
     font-size: 2em;
     letter-spacing: 3px;
 }
@@ -57,5 +55,4 @@
     background-color: rgba(255, 255, 255, 0.5);
 }
 .nav-bar.sticky ul li a:hover{
-    background-color: rgba(0, 0, 0, 0.5);
 }
