@@ -1,21 +1,46 @@
-:root {
-    --main-content-bg: #f4fff0;
-}
-
-.main {
-    display: block;
-    margin: 0 auto;
-    border-radius: 10px;
-    width: 80vw;
-    background-color: var(--main-content-bg);
-    box-shadow: 5px 3px rgba(0, 0, 0, 0.374);
-}
-
 .content {
-    margin: 15px;
-    padding: 20px;
+    display: block;
+    margin: 20px auto;
+    border-radius: 10px;
+    width: 90vw;
+    letter-spacing: 2px;
+    padding: 0 25px;
+    /* border: 1px solid red; */
+}
+
+.introduction-container, .sequences-container, .chunk-container, .meta-container, .appendices-container{
+    margin: 20vh 0;
+}
+
+.content h2{
+    font-weight: 500;
+}
+
+.content h3{
+    font-weight: 400;
+    margin: 25px 20px;
+
+}
+
+.content p {
+    font-weight: 200;
+    margin-left: 50px;
 }
 
 .title {
-    text-align: center;
+    margin: 25px 0;
+}
+
+table{
+    margin:25px auto;
+}
+
+td {
+    padding: 10px;
+    font-size: 1.2em;
+    font-family: monospace;
+}
+table, td {
+    border: 1px solid white;
+    border-collapse: collapse;
 }

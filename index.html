@@ -1,3 +1,4 @@
+<!-- add active classes to the nav menu -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,14 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Standard MIDI file Format</title>
     <link href="styles/index.css" rel="stylesheet"/>
+    <link href="styles/observer.css" rel="stylesheet"/>
     <link href="styles/nav.css" rel="stylesheet"/>
     <link href="styles/banner.css" rel="stylesheet"/>
+    <link href="styles/acknowledgement.css" rel="stylesheet"/>
     <link href="styles/main.css" rel="stylesheet"/>
     <link href="styles/footer.css" rel="stylesheet"/>
 
     <script src="scripts/script.js" type="application/javascript"></script>
+    <script src="scripts/observer.js" type="application/javascript"></script>
+    <script src="scripts/scrollScript.js"></script>
+    <script src="scripts/bannerAnimation.js"></script>
 </head>
 <body>
+
     <nav class="nav-bar">
         <h1 class="logo">MIDI</h1>
         <ul>
@@ -24,96 +31,89 @@
             <li><a href="#appendices">Appendices</a></li>
         </ul>
     </nav>
+
     <div class="banner">
         <canvas id="canvas1"></canvas>
-        <h1 class="main-title">Updated Standard MIDI-File Format Spec. 1.1</h1>
-        <p>A detailed Specification of Standard MIDI File Format.</p>
+        <h1 class="main-title hidden">Updated Standard MIDI-File Format Spec. 1.1</h1>
+        <p class="hidden">A detailed Specification of Standard MIDI File Format.</p>
     </div>
-    <script src="scripts/scrollScript.js"></script>
-    <script src="scripts/bannerAnimation.js"></script>
 
-    <main class="main">
-        <div class="content">
-            <div>
-                <h2 class="title" id="introduction">Introduction</h2>
-                <hr>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-            </div>
-            <div>
-                <h2 class="title" id="sequences">Sequences, Tracks, Chunks: File Block Structure</h2>
-                <hr>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt necessitatibus praesentium nihil corporis neque, voluptates aliquid, deleniti beatae provident maxime fugiat cum odit eum optio obcaecati vitae! Dicta, labore magni!</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-            </div>
-            <div>
-                <h2 class="title" id="chunk">Chunk Descriptions</h2>
-                <hr>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt necessitatibus praesentium nihil corporis neque, voluptates aliquid, deleniti beatae provident maxime fugiat cum odit eum optio obcaecati vitae! Dicta, labore magni!</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-            </div>
-            <div>
-                <h2 class="title" id="meta">Meta-Events</h2>
-                <hr>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt necessitatibus praesentium nihil corporis neque, voluptates aliquid, deleniti beatae provident maxime fugiat cum odit eum optio obcaecati vitae! Dicta, labore magni!</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-            </div>
-            <div>
-                <h2 class="title" id="appendices">Appendices</h2>
-                <hr>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt necessitatibus praesentium nihil corporis neque, voluptates aliquid, deleniti beatae provident maxime fugiat cum odit eum optio obcaecati vitae! Dicta, labore magni!</p>
-                <br> 
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam deserunt nihil quisquam quod maxime ullam aliquid nam deleniti perspiciatis! Nobis in placeat laborum quo illum voluptate, dolorem quia ex nulla.</p>
-                <br>          
-            </div>
+    <section class="acknowledgement hidden">
+        <h2>Acknowledgement</h2>
+        <p class="hidden">
+            This document was originally distributed in text format by The International MIDI Association. I have updated it and added new Appendices.
+            <br>
+            © Copyright 1999 David Back.
+            <br>
+            E-mail: david@csw2.co.uk
+            <br>
+            Web: http://www.csw2.co.uk
+            <br>
+            This document may be freely copied in whole or in part provided the copy contains this Acknowledgement.
+        </p>
+    </section>
+
+    <main class="content">
+        <div class="introduction-container hidden">
+            <h2 class="title" id="introduction">Introduction</h2>
+            <p>
+                This document details the structure of MIDI Files. The purpose of MIDI Files is to provide a way of interchanging time-stamped MIDI data between different programs on the same or different computers. One of the primary design goals is compact representation, which makes it very appropriate for disk-based file format, but which might make it inappropriate for storing in memory for quick access by a sequencer program.
+            </p>
+            <br>
+            <p>
+                MIDI Files contain one or more MIDI streams, with time information for each event. Song, sequence, and track structures, tempo and time signature information, are all supported. Track names and other descriptive information may be stored with the MIDI data. This format supports multiple tracks and multiple sequences so that if the user of a program which supports multiple tracks intends to move a file to another one, this format can allow that to happen.
+            </p>
+            <br>
+            <p>  
+                The specification defines the 8-bit binary data stream used in the file. The data can be stored in a binary file, nibbilized, 7-bit-ized for efficient MIDI transmission, converted to Hex ASCII, or translated symbolically to a printable text file. This spec addresses what's in the 8-bit stream. It does not address how a MIDI File will be transmitted over MIDI.
+            </p>
         </div>
-     
+        <div class="sequences-container hidden">
+            <h2 class="title" id="sequences">Sequences, Tracks, Chunks: File Block Structure</h2>
+            <p>
+                In this document, bit 0 means the least significant bit of a byte, and bit 7 is the most significant.
+            </p>
+            <h3>1. Variable Length Quantity</h3>
+            <p>
+                Some numbers in MIDI Files are represented in a form called VARIABLE-LENGTH QUANTITY. These numbers are represented 7 bits per byte, most significant bits first. All bytes except the last have bit 7 set, and the last byte has bit 7 clear. If the number is between 0 and 127, it is thus represented exactly as one byte.
+            </p>
+            <br>
+            <p>
+                Some examples of numbers represented as variable-length quantities:
+            </p>
+            <table>
+                <tbody><tr><td>00000000 </td><td>00</td></tr>
+                <tr><td>00000040 </td><td>40</td></tr>
+                <tr><td>0000007F </td><td>7F</td></tr>
+                <tr><td>00000080 </td><td>81 00</td></tr>
+                <tr><td>00002000 </td><td>C0 00</td></tr>
+                <tr><td>00003FFF </td><td>FF 7F</td></tr>
+                <tr><td>00004000 </td><td>81 80 00</td></tr>
+                <tr><td>00100000 </td><td>C0 80 00</td></tr>
+                <tr><td>001FFFFF </td><td>FF FF 7F</td></tr>
+                <tr><td>00200000 </td><td>81 80 80 00</td></tr>
+                <tr><td>08000000 </td><td>C0 80 80 00</td></tr>
+                <tr><td>0FFFFFFF </td><td>FF FF FF 7F</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="chunk-container hidden">
+            <h2 class="title" id="chunk">Chunk Descriptions</h2>
+        </div>
+        <div class="meta-contianer hidden">
+            <h2 class="title" id="meta">Meta-Events</h2>
+        </div>
+        <div class="appendices-container hidden">
+            <h2 class="title" id="appendices">Appendices</h2>
+        </div>     
     </main>
-    <footer class="footer">
-        <div class="acknowledgement">
-            <h3 class="bottom">Acknowledgement</h3>
-            <hr>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis aut incidunt quos? Rerum consequatur vero libero excepturi aut nihil minus repudiandae alias magnam, fugit, quidem non. Iusto repudiandae animi autem.</p>
+
+    <footer>
+        <div class="footer">
+            Footer
         </div>
     </footer>
+
 </body>
 
 </html>
