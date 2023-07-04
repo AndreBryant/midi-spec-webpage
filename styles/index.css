@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap");
 
 :root{
-    --body-bg: #9abc94;
+    --body-bg: #000000;
 }
 
 html {
@@ -12,10 +12,10 @@ html {
     margin:0;
     padding:0;
     box-sizing: border-box;
+    font-family: 'poppins', sans-serif;
 }
 
 body {
-    font-family: 'poppins', sans-serif;
-    padding-top: 30px;
     background-color: var(--body-bg);
+    min-height: 100vh;
 }

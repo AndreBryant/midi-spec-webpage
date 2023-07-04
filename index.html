@@ -15,25 +15,30 @@
     <title>Standard MIDI file Format</title>
     <link href="styles/index.css" rel="stylesheet"/>
     <link href="styles/nav.css" rel="stylesheet"/>
+    <link href="styles/banner.css" rel="stylesheet"/>
     <link href="styles/main.css" rel="stylesheet"/>
     <link href="styles/footer.css" rel="stylesheet"/>
 
     <script src="scripts/script.js" type="application/javascript"></script>
 </head>
 <body>
-    <div class="hero">
-        <h1 class="main-title">Standard MIDI-File Format Spec. 1.1, updated</h1>
-    </div>
     <nav class="nav-bar">
+        <h1 class="logo">MIDI</h1>
         <ul>
             <li><a href="#introduction" class="active">Introduction</a></li>
-            <li><a href="#sequences" class="">Sequences, Tracks, Chunks: File Block Structure</a></li>
-            <li><a href="#chunk">Chunk Descriptions</a></li>
-            <li><a href="#meta">Meta-Events</a></li>
+            <li><a href="#sequences" class="">Sequences</a></li>
+            <li><a href="#chunk">Chunk</a></li>
+            <li><a href="#meta">Meta</a></li>
             <li><a href="#appendices">Appendices</a></li>
         </ul>
-
     </nav>
+    <div class="banner">
+        <canvas id="canvas1"></canvas>
+        <h1 class="main-title">Standard MIDI-File Format Spec. 1.1, updated</h1>
+    </div>
+    <script src="scripts/stickyNav.js"></script>
+    <script src="scripts/bannerAnimation.js"></script>
+
     <main class="main">
         <div class="content">
             <h2 class="title" id="introduction">Introduction</h2>

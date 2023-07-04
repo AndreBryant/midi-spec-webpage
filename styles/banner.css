@@ -1,0 +1,21 @@
+#canvas1 {
+    position: absolute;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(0, 0, 0);
+}
+
+.banner {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    /* background-image: url("../img/hero.png"); */
+    background-size:contain;
+}
+
+.main-title{
+    color: white;
+    text-align: center;
+    padding-top: 45vh;
+}

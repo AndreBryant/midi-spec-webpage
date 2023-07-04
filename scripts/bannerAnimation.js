@@ -1,0 +1,1 @@
+// Here goes the banner animation (matrix animation sana)

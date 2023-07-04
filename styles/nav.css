@@ -1,57 +1,60 @@
 
 
 :root{
-    --nav-bar-bottom-border:#051107;
-    --nav-bar-bg:#ABDF75;
-    --nav-items-links:#0c130d;
-    
-    --hover-text: #2f4a33;
-    --hover-bg: #a1c791;
-    --hover-bottom-border: #22291f;
-
-    --active-bg:#6B9472;
-    --active-text:#1e3222;
-    --active-border-bottom:#1e3222;
+    /* USE Variables HERE */
+    /* or just use black and white theme */
 }
 
-.nav-bar {
-    border-bottom: 1px solid var(--nav-bar-bottom-border);
-    height: 30px;
-    width: 100vw;
+.nav-bar{
     position: fixed;
+    width: 100vw;
     top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s;
+    padding: 40px 100px;
+    z-index: 999;
+}
 
-    background-color: var(--nav-bar-bg);
+.nav-bar.sticky {
+    padding: 5px 100px;
+    background: white;
+}
+
+.nav-bar.sticky a, .nav-bar.sticky .logo {
+    color: black;
+}
+
+.nav-bar .logo{
+    position:relative;
+    font-weight: 700;
+    color: white;/*turn this into a variable*/
+    font-size: 2em;
+    letter-spacing: 3px;
 }
 
 .nav-bar ul {
+    position: relative;
     display: flex;
+    justify-content: center;
+    align-items: center; 
     list-style: none;
-    padding: 0;
-    align-self: center;
 }
 
-.nav-bar ul li {
-    
-}
-
-.nav-bar ul li a {
+.nav-bar ul li a{
+    position: relative;
+    margin: 0 5px;
+    padding: 10px 10px;
     text-decoration: none;
-    
-    color: var(--nav-items-links);
-    padding: 5px 10px;
+    color: white;
+    letter-spacing: 2px;
+    font-weight: 500;
+    transition: 0.2s;
 }
-
-.nav-bar ul li a:not(.active):hover {
-    background-color: var(--hover-bg);
-    border-bottom: 5px solid var(--hover-bottom-border);
-    border-radius: 5px;
-    color:var(--hover-text);
-    transition: 0.1s;
+.nav-bar ul li a:hover{
+    background-color: rgba(255, 255, 255, 0.5);
 }
-.nav-bar ul li .active {
-    background-color: var(--active-bg);
-    color: var(--active-text);
-    border-bottom: 5px solid var(--active-border-bottom);
-    border-radius: 5px;
+.nav-bar.sticky ul li a:hover{
+    background-color: rgba(0, 0, 0, 0.5);
 }
