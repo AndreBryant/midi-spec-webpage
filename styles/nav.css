@@ -3,50 +3,36 @@
     width: 100vw;
     top: 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     transition: 0.3s;
-    padding: 40px 120px;
-    z-index: 999;
-    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 99;
+    padding: 20px 120px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.nav-bar img {
+    width: 100px;
+    height: 45px;
+    
+    filter: invert(1);
 }
 
 .nav-bar.sticky {
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 5px 100px;
+    background-color: rgb(255, 255, 255);
+    padding: 10px 0;
+    transition: 0.3s; 
 }
 
-.nav-bar.sticky a, .nav-bar.sticky .logo {
-    color: black;
+.nav-bar.sticky img { 
+    filter: invert(0);
 }
 
-.nav-bar .logo{
-    position:relative;
-    font-weight: 700;
-    color: white;
-    font-size: 2em;
-    letter-spacing: 3px;
-}
-
-.nav-bar ul {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-    list-style: none;
-}
-
-.nav-bar ul li a{
-    position: relative;
-    margin: 0 5px;
-    padding: 10px 10px;
-    text-decoration: none;
-    color: white;
-    letter-spacing: 2px;
-    font-weight: 500;
-    transition: 0.2s;
-}
-
-.nav-bar ul li a:hover{
-    background-color: rgba(255, 255, 255, 0.5);
+#hamburger img{
+    height: 45px;
+    aspect-ratio: 1;
+    /* filter: invert(1); */
+    z-index: 999;
+    margin: 10px;
+    position: fixed;
 }

@@ -11,11 +11,11 @@ window.addEventListener('load', ()=>{
             this.y = y;
             this.canvasHeight = canvasHeight;
             this.fontSize = fontSize;
-            
+            this.digits = '0123456789ABCDEF';
             this.text = '';
         }
         draw(context){
-            this.text = `${Math.floor(Math.random()+0.5)}`
+            this.text = `${this.digits.charAt(Math.floor(Math.random()*this.digits.length))}`
 
             context.fillStyle = 'gray';
             context.fillText(this.text, this.x*this.fontSize, this.y*this.fontSize);
@@ -54,7 +54,7 @@ window.addEventListener('load', ()=>{
     const effect = new Effect(canvas.width, canvas.height);
 
     let lastTime = 0;
-    const fps = 45;
+    const fps = 30;
     const nextFrame = 1000/fps;
     let timer = 0;
 

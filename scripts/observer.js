@@ -13,5 +13,7 @@ window.addEventListener('load', ()=>{
         });
     });
     
-    hiddenElements.forEach((el) => observer.observe(el))
+    hiddenElements.forEach((el) => observer.observe(el));
+
+  
 })

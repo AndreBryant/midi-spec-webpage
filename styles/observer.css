@@ -6,3 +6,8 @@
 .show {
     opacity: 1;
 }
+
+.hidden-burger {
+    opacity: 0;
+    transition: ease-in 1s;
+}
