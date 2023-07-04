@@ -1,6 +1,4 @@
-/*
-    from https://www.youtube.com/watch?v=f5ZswIE_SgY
-*/
+// from https://www.youtube.com/watch?v=f5ZswIE_SgY
 window.addEventListener('load', ()=>{
     const canvas = document.getElementById('canvas1');
     canvas.height = window.innerHeight;

@@ -11,9 +11,9 @@
     justify-content: space-between;
     align-items: center;
     transition: 0.3s;
-    padding: 40px 100px;
+    padding: 40px 120px;
     z-index: 999;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .nav-bar.sticky {
