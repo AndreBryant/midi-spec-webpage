@@ -15,6 +15,7 @@
     transition: 0.3s;
     padding: 40px 100px;
     z-index: 999;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .nav-bar.sticky {
