@@ -2,6 +2,11 @@ window.addEventListener('load', ()=>{
     var hambruger = document.getElementById('hamburger');
     var hamburgerIcon = document.getElementById('hamburger-icon');
     var navLinks = document.getElementById('nav-links');
+    var navLinkClicked = false;
+
+    navLinks.addEventListener('click',()=>{
+        navLinkClicked = true;
+    })
 
     hambruger.addEventListener('click', ()=>{
         if(hamburgerIcon.src.endsWith('hamburger.svg')){
@@ -12,8 +17,11 @@ window.addEventListener('load', ()=>{
             //closed nav links
             hamburgerIcon.src = '../img/hamburger.svg';
             navLinks.style.display = 'none';
+            if(navLinkClicked){
+                window.scrollTo(0,window.scrollY+150);
+                navLinkClicked = false;
+            }
         }
 
-        // hamburgerIcon.href = 'yung active na nav link'
     })
 })

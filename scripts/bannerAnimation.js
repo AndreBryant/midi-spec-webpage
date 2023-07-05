@@ -39,7 +39,7 @@ window.addEventListener('load', ()=>{
         }
         initialize(){
             for(let i = 0; i< this.columns; i++){
-                this.digits[i] = new Digit(i,Math.floor(Math.random()*this.canvasHeight),this.fontSize,this.canvasHeight);
+                this.digits[i] = new Digit(i,0,this.fontSize,this.canvasHeight);
             }
         }
         resize(canvasWidth, canvasHeight){
