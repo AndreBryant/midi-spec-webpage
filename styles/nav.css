@@ -13,10 +13,11 @@
 }
 
 .nav-bar img {
-    width: 100px;
-    height: 45px;
+    width: 150px;
+    height: 67.5px;
     
     filter: invert(1);
+    transition: 0.3s;
 
 }
 
@@ -47,13 +48,15 @@
 }
 
 .nav-bar.sticky {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.9);
     border-bottom: 1px solid rgb(0, 0, 0);
     padding: 10px 0;
     transition: 0.3s; 
 }
 
 .nav-bar.sticky img { 
+    width: 100px;
+    height: 45px;
     filter: invert(0);
 }
 
@@ -64,5 +67,6 @@
     z-index: 999;
     margin: 15px;
     position: fixed;
+    transition: 0.3s;
 }
 
