@@ -1,4 +1,3 @@
-<!-- add active classes to the nav menu -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +13,7 @@
     <link href="styles/main.css" rel="stylesheet"/>
     <link href="styles/footer.css" rel="stylesheet"/>
 
-    <script src="scripts/script.js" type="application/javascript"></script>
+    <script src="scripts/hamburger.js" type="application/javascript"></script>
     <script src="scripts/observer.js" type="application/javascript"></script>
     <script src="scripts/scrollScript.js"></script>
     <script src="scripts/bannerAnimation.js"></script>
@@ -23,16 +22,15 @@
     
     <nav class="nav-bar">
         <img src="img/MIDI_LOGO.png" alt="midi png">
-        <!-- <h1 class="logo">MIDI</h1> -->
-        <!-- <ul>
+        <ul id="nav-links">
             <li><a href="#introduction" class="active">Introduction</a></li>
             <li><a href="#sequences" class="">Sequences</a></li>
             <li><a href="#chunk">Chunk</a></li>
             <li><a href="#meta">Meta</a></li>
             <li><a href="#appendices">Appendices</a></li>
-        </ul> -->
+        </ul>
     </nav>
-    <a href="" id="hamburger" class="hidden-burger"><img src="img/hamburger.svg" alt="hamburg" ></a>
+    <a href="#introduction" id="hamburger" class="hidden-burger"><img id="hamburger-icon" src="img/hamburger.svg" alt="hamburg" ></a>
     
 
     <div class="banner">
@@ -44,9 +42,9 @@
     <section class="acknowledgement hidden">
         <h2>Acknowledgement</h2>
         <p class="hidden">
-            This document was originally distributed in text format by The International MIDI Association. I have updated it and added new Appendices.
+            This document was originally distributed in text format by The International MIDI Association. I<sup>*</sup> have updated it and added new Appendices.
             <br>
-            © Copyright 1999 David Back.
+            © Copyright 1999 David Back<sup>*</sup>.
             <br>
             E-mail: david@csw2.co.uk
             <br>

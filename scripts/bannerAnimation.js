@@ -1,4 +1,4 @@
-// modified from Frank's Laboratory YouTube video https://www.youtube.com/watch?v=f5ZswIE_SgY
+// modified from a Frank's Laboratory YouTube video https://www.youtube.com/watch?v=f5ZswIE_SgY
 window.addEventListener('load', ()=>{
     const canvas = document.getElementById('canvas1');
     canvas.height = window.innerHeight;
@@ -39,7 +39,7 @@ window.addEventListener('load', ()=>{
         }
         initialize(){
             for(let i = 0; i< this.columns; i++){
-                this.digits[i] = new Digit(i,0,this.fontSize,this.canvasHeight);
+                this.digits[i] = new Digit(i,Math.floor(Math.random()*this.canvasHeight),this.fontSize,this.canvasHeight);
             }
         }
         resize(canvasWidth, canvasHeight){
