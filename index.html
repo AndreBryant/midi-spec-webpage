@@ -74,7 +74,7 @@
             <p>
                 In this document, bit 0 means the least significant bit of a byte, and bit 7 is the most significant.
             </p>
-            <h3>1. Variable Length Quantity</h3>
+            <h3>1.1 Variable Length Quantity</h3>
             <p>
                 Some numbers in MIDI Files are represented in a form called VARIABLE-LENGTH QUANTITY. These numbers are represented 7 bits per byte, most significant bits first. All bytes except the last have bit 7 set, and the last byte has bit 7 clear. If the number is between 0 and 127, it is thus represented exactly as one byte.
             </p>
@@ -97,9 +97,357 @@
                 <tr><td>0FFFFFFF </td><td>FF FF FF 7F</td></tr>
                 </tbody>
             </table>
+            <p>
+                The largest number which is allowed is 0FFFFFFF so that the variable-length representations must fit in 32 bits in a routine to write variable-length numbers. Theoretically, larger numbers are possible, but 2 x 108 96ths of a beat at a fast tempo of 500 beats per minute is four days, long enough for any delta-time!
+            </p>
+            <h3>1.2 - Files</h3>
+            <p>
+                To any file system, a MIDI File is simply a series of 8-bit bytes. On the Macintosh, this byte stream is stored in the data fork of a file (with file type 'MIDI'), or on the Clipboard (with data type 'MIDI'). Most other computers store 8-bit byte streams in files.
+            </p>
+            <h3>1.3 - Chunks</h3>
+            <p>
+                MIDI Files are made up of -chunks-. Each chunk has a 4-character type and a 32-bit length, which is the number of bytes in the chunk. This structure allows future chunk types to be designed which may be easily be ignored if encountered by a program written before the chunk type is introduced. Your programs should EXPECT alien chunks and treat them as if they weren't there.
+                Each chunk begins with a 4-character ASCII type. It is followed by a 32-bit length, most significant byte first (a length of 6 is stored as 00 00 00 06). This length refers to the number of bytes of data which follow: the eight bytes of type and length are not included. Therefore, a chunk with a length of 6 would actually occupy 14 bytes in the disk file.
+
+                This chunk architecture is similar to that used by Electronic Arts' IFF format, and the chunks described herein could easily be placed in an IFF file. The MIDI File itself is not an IFF file: it contains no nested chunks, and chunks are not constrained to be an even number of bytes long. Converting it to an IFF file is as easy as padding odd length chunks, and sticking the whole thing inside a FORM chunk.
+            </p>
+            <h3>1.4 - Chunk Types</h3>    
+            <p>
+                MIDI Files contain two types of chunks: header chunks and track chunks. A -header- chunk provides a minimal amount of information pertaining to the entire MIDI file. A -track- chunk contains a sequential stream of MIDI data which may contain information for up to 16 MIDI channels. The concepts of multiple tracks, multiple MIDI outputs, patterns, sequences, and songs may all be implemented using several track chunks.
+
+                A MIDI File always starts with a header chunk, and is followed by one or more track chunks.
+            </p>
+            <br>
+            <p>
+                MThd &lt;length of header data&gt;<br>
+                &lt;header data&gt;
+            </p>
+            <p>
+                MTrk &lt;length of track data&gt;<br>
+                &lt;track data&gt;
+            </p>
+            <p>
+                MTrk &lt;length of track data&gt;<br>
+                &lt;track data&gt;
+                . . .
+            </p>
+            
         </div>
         <div class="chunk-container hidden">
             <h2 class="title" id="chunk">Chunk Descriptions</h2>
+    
+            <h3>2.1 - Header Chunks</h3>
+            <p>
+                The header chunk at the beginning of the file
+                specifies some basic information about the data in the file.
+                <br>
+                Here's the syntax of the complete chunk:
+            </p>
+            <br>
+            <p>
+                &lt;Header Chunk&gt; = &lt;chunk
+                type&gt;&lt;length&gt;&lt;format&gt;&lt;ntrks&gt;&lt;division&gt;
+            </p>
+            <br>
+            <p>
+                As described above, &lt;chunk type&gt; is the four ASCII
+                characters 'MThd'; &lt;length&gt; is a 32-bit representation of
+                the number 6 (high byte first).
+            </p>
+            <br>
+            <p>The data section contains three 16-bit words, stored
+            most-significant byte first.
+            </p>
+            <br>
+            <p>
+                The first word, &lt;format&gt;, specifies the overall
+                organisation of the file. Only three values of &lt;format&gt; are
+                specified:
+            </p>
+            <br>
+            <p>0-the file contains a single multi-channel track<br>
+            1-the file contains one or more simultaneous tracks (or MIDI outputs) of a sequence<br>
+            2-the file contains one or more sequentially independent single-track patterns
+            </p>
+            <br>
+            <p>
+                More information about these formats is provided below.
+            </p>
+            <br>
+            <p>
+                The next word, &lt;ntrks&gt;, is the number of track chunks in
+                the file. It will always be 1 for a format 0 file.
+            </p>
+            <br>
+            <p>
+                The third word, &lt;division&gt;, specifies the meaning of the
+                delta-times. It has two formats, one for metrical time, and one
+                for time-code-based time:
+            </p>
+            <table>
+                <tbody>
+                    <tr><th>bit 15 </th><th>bits 14 thru 8</th><th>bits 7 thru 0</th></tr>
+                    <tr><td>0 </td><td colspan="2">ticks per quarter-note</td></tr>
+                    <tr><td>1 </td><td>negative SMPTE format </td><td>ticks per frame</td></tr>
+                </tbody>
+            </table>
+            <p>
+                If bit 15 of &lt;division&gt; is zero, the bits 14 thru 0
+                represent the number of delta time "ticks" which make
+                up a quarter-note. For instance, if division is 96, then a time
+                interval of an eighth-note between two events in the file would
+                be 48.
+            </p>
+            <br>
+            <p>
+                If bit 15 of &lt;division&gt; is a one, delta times in a file
+                correspond to subdivisions of a second, in a way consistent with
+                SMPTE and MIDI Time Code. Bits 14 thru 8 contain one of the four
+                values -24, -25, -29, or -30, corresponding to the four standard
+                SMPTE and MIDI Time Code formats (-29 corresponds to 30 drop
+                frame), and represents the number of frames per second. These
+                negative numbers are stored in two's compliment form. The second
+                byte (stored positive) is the resolution within a frame: typical
+                values may be 4 (MIDI Time Code resolution), 8, 10, 80 (bit
+                resolution), or 100. This stream allows exact specifications of
+                time-code-based tracks, but also allows millisecond-based tracks
+                by specifying 25 frames/sec and a resolution of 40 units per
+                frame. If the events in a file are stored with a bit resolution
+                of thirty-frame time code, the division word would be E250 hex.
+            </p>
+            <h3>2.2 - MIDI File Formats 0,1 and 2</h3>
+            <p>
+                A Format 0 file has a header chunk
+                followed by one track chunk. It is the most interchangeable
+                representation of data. It is very useful for a simple
+                single-track player in a program which needs to make synthesisers
+                make sounds, but which is primarily concerned with something
+                else such as mixers or sound effect boxes. It is very desirable
+                to be able to produce such a format, even if your program is
+                track-based, in order to work with these simple programs.
+            </p>
+            <br>
+            <p>
+                A Format 1 or 2 file has a header chunk followed by one or
+                more track chunks. programs which support several simultaneous
+                tracks should be able to save and read data in format 1, a
+                vertically one dimensional form, that is, as a collection of
+                tracks. Programs which support several independent patterns
+                should be able to save and read data in format 2, a horizontally
+                one dimensional form. Providing these minimum capabilities will
+                ensure maximum interchangeability.
+            </p>
+            <br>
+            <p>
+                In a MIDI system with a computer and a SMPTE synchroniser
+                which uses Song Pointer and Timing Clock, tempo maps (which
+                describe the tempo throughout the track, and may also include
+                time signature information, so that the bar number may be
+                derived) are generally created on the computer. To use them with
+                the synchroniser, it is necessary to transfer them from the
+                computer. To make it easy for the synchroniser to extract this
+                data from a MIDI File, tempo information should always be stored
+                in the first MTrk chunk. For a format 0 file, the tempo will be
+                scattered through the track and the tempo map reader should
+                ignore the intervening events; for a format 1 file, the tempo map
+                must be stored as the first track. It is polite to a tempo map
+                reader to offer your user the ability to make a format 0 file
+                with just the tempo, unless you can use format 1.
+            </p>
+            <br>
+            <p>
+                All MIDI Files should specify tempo and time signature. If
+                they don't, the time signature is assumed to be 4/4, and the
+                tempo 120 beats per minute. In format 0, these meta-events should
+                occur at least at the beginning of the single multi-channel
+                track. In format 1, these meta-events should be contained in the
+                first track. In format 2, each of the temporally independent
+                patterns should contain at least initial time signature and tempo
+                information.
+            </p>
+            <br>
+            <p>
+                Format IDs to support other structures may be defined in
+                the future. A program encountering an unknown format ID may still
+                read other MTrk chunks it finds from the file, as format 1 or 2,
+                if its user can make sense of them and arrange them into some
+                other structure if appropriate. Also, more parameters may be
+                added to the MThd chunk in the future: it is important to read
+                and honour the length, even if it is longer than 6.            
+            </p>
+            
+            <h3>2.3 - Track Chunks</h3>
+            <p>
+                The track chunks (type MTrk) are where actual
+                song data is stored. Each track chunk is simply a stream of MIDI
+                events (and non-MIDI events), preceded by delta-time values. The
+                format for Track Chunks (described below) is exactly the same for
+                all three formats (0, 1, and 2: see "Header Chunk"
+                above) of MIDI Files.
+            </p>
+            <br>
+            <p>
+                Here is the syntax of an MTrk chunk (the + means "one or
+                more": at least one MTrk event must be present):
+            </p>
+            <br>
+            <p>
+                &lt;Track Chunk&gt; = &lt;chunk type&gt;&lt;length&gt;&lt;MTrk
+                event&gt;+
+            </p>
+            <br>
+            <p>
+                The syntax of an MTrk event is very simple:
+            </p>
+            <br>
+            <p>
+                &lt;MTrk event&gt; = &lt;delta-time&gt;&lt;event&gt;
+            </p>
+            <br>
+            <p>
+                &lt;delta-time&gt; is stored as a variable-length quantity. It
+                represents the amount of time before the following event. If the
+                first event in a track occurs at the very beginning of a track,
+                or if two events occur simultaneously, a delta-time of zero is
+                used. Delta-times are always present. (Not storing delta-times of
+                0 requires at least two bytes for any other value, and most
+                delta-times aren't zero.) Delta-time is in some fraction of a
+                beat (or a second, for recording a track with SMPTE times), as
+                specified in the header chunk.
+            </p>
+            <br>
+            <p>
+                &lt;event&gt; = &lt;MIDI event&gt; | &lt;sysex event&gt; |
+                &lt;meta-event&gt;
+            </p>
+            <br>
+            <p>
+                &lt;MIDI event&gt; is any MIDI channel message
+                <a>See Appendix 1 - MIDI Messages.</a> Running status
+                is used: status bytes of MIDI channel messages may be omitted if
+                the preceding event is a MIDI channel message with the same
+                status. The first event in each MTrk chunk must specify status.
+                Delta-time is not considered an event itself: it is an integral
+                part of the syntax for an MTrk event. Notice that running status
+                occurs across delta-times.
+            </p>
+            <br>
+            <p>
+                &lt;sysex event&gt; is used to specify a MIDI system exclusive
+                message, either as one unit or in packets, or as an
+                "escape" to specify any arbitrary bytes to be
+                transmitted. <a>See Appendix 1 - MIDI Messages.</a> A normal
+                complete system exclusive message is stored in a MIDI File in this way:
+            </p>
+            <br>
+            <p>
+                F0 &lt;length&gt; &lt;bytes to be transmitted after F0&gt;
+            </p>
+            <br>
+            <p>
+                The length is stored as a variable-length quantity. It
+                specifies the number of bytes which follow it, not including the
+                F0 or the length itself. For instance, the transmitted message F0
+                43 12 00 07 F7 would be stored in a MIDI File as F0 05 43 12 00
+                07 F7. It is required to include the F7 at the end so that the
+                reader of the MIDI File knows that it has read the entire
+                message.
+            </p>
+            <br>
+            <p>
+                Another form of sysex event is provided which does not imply
+                that an F0 should be transmitted. This may be used as an
+                "escape" to provide for the transmission of things
+                which would not otherwise be legal, including system realtime
+                messages, song pointer or select, MIDI Time Code, etc. This uses
+                the F7 code:
+            </p>
+            <br>
+            <p>
+                F7 &lt;length&gt; &lt;all bytes to be transmitted&gt;
+            </p>
+            <br>
+            <p>
+                Unfortunately, some synthesiser manufacturers specify that
+                their system exclusive messages are to be transmitted as little
+                packets. Each packet is only part of an entire syntactical system
+                exclusive message, but the times they are transmitted are
+                important. Examples of this are the bytes sent in a CZ patch
+                dump, or the FB-01's "system exclusive mode" in which
+                microtonal data can be transmitted. The F0 and F7 sysex events
+                may be used together to break up syntactically complete system
+                exclusive messages into timed packets.
+            </p>
+            <br>
+            <p>
+                An F0 sysex event is used for the first packet in a series --
+                it is a message in which the F0 should be transmitted. An F7
+                sysex event is used for the remainder of the packets, which do
+                not begin with F0. (Of course, the F7 is not considered part of
+                the system exclusive message).
+            </p>
+            <br>
+            <p>
+                A syntactic system exclusive message must always end with an
+                F7, even if the real-life device didn't send one, so that you
+                know when you've reached the end of an entire sysex message
+                without looking ahead to the next event in the MIDI File. If it's
+                stored in one complete F0 sysex event, the last byte must be an
+                F7. There also must not be any transmittable MIDI events in
+                between the packets of a multi-packet system exclusive message.
+                This principle is illustrated in the paragraph below.
+            </p>
+            <br>
+            <p>
+                Here is a MIDI File of a multi-packet system exclusive
+                message: suppose the bytes F0 43 12 00 were to be sent, followed
+                by a 200-tick delay, followed by the bytes 43 12 00 43 12 00,
+                followed by a 100-tick delay, followed by the bytes 43 12 00 F7,
+                this would be in the MIDI File:
+            </p>
+            <table>
+                <tbody>
+                    <tr><td>F0 03 43 12 00</td><td>&nbsp;</td></tr>
+                    <tr><td>81 48 </td><td>200-tick delta time</td></tr>
+                    <tr><td>F7 06 43 12 00 43 12 00</td><td>&nbsp;</td></tr>
+                    <tr><td>64 </td><td>100-tick delta time</td></tr>
+                    <tr><td>F7 04 43 12 00 F7</td><td>&nbsp;</td></tr>
+                </tbody>
+            </table>
+            <p>
+                When reading a MIDI File, and an F7 sysex event is encountered
+                without a preceding F0 sysex event to start a multi-packet system
+                exclusive message sequence, it should be presumed that the F7
+                event is being used as an "escape". In this case, it is
+                not necessary that it end with an F7, unless it is desired that
+                the F7 be transmitted.
+            </p>
+            <br>
+            <p>
+                &lt;meta-event&gt; specifies non-MIDI information useful to
+                this format or to sequencers, with this syntax:
+            </p>
+            <br>
+            <p>
+                FF &lt;type&gt; &lt;length&gt; &lt;bytes&gt;
+            </p>
+            <br>
+            <p>
+                All meta-events begin with FF, then have an event type byte
+                (which is always less than 128), and then have the length of the
+                data stored as a variable-length quantity, and then the data
+                itself. If there is no data, the length is 0. As with chunks,
+                future meta-events may be designed which may not be known to
+                existing programs, so programs must properly ignore meta-events
+                which they do not recognise, and indeed should expect to see
+                them. Programs must never ignore the length of a meta-event which
+                they do not recognise, and they shouldn't be surprised if it's
+                bigger than expected. If so, they must ignore everything past
+                what they know about. However, they must not add anything of
+                their own to the end of the meta- event. Sysex events and meta
+                events cancel any running status which was in effect. Running
+                status does not apply to and may not be used for these messages.
+            </p>
         </div>
         <div class="meta-contianer hidden">
             <h2 class="title" id="meta">Meta-Events</h2>
