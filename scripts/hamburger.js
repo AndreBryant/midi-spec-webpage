@@ -22,6 +22,8 @@ window.addEventListener('load', ()=>{
                 navLinkClicked = false;
             }
         }
+        console.log(hamburgerIcon.src)
+
 
     })
 })
