@@ -11,11 +11,11 @@ window.addEventListener('load', ()=>{
     hambruger.addEventListener('click', ()=>{
         if(hamburgerIcon.src.endsWith('hamburger.svg')){
             //Open nav links
-            hamburgerIcon.src = '/img/X.svg';
+            hamburgerIcon.src = './img/X.svg';
             navLinks.style.display = 'block';
         } else {
             //closed nav links
-            hamburgerIcon.src = '/img/hamburger.svg';
+            hamburgerIcon.src = './img/hamburger.svg';
             navLinks.style.display = 'none';
             if(navLinkClicked){
                 window.scrollTo(0,window.scrollY+150);
