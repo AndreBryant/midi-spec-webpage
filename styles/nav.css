@@ -1,3 +1,12 @@
+@keyframes nav-animation{
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 100%;
+    }
+}
+
 .nav-bar{
     position: fixed;
     width: 100vw;
@@ -28,6 +37,16 @@
     margin-top: 10px;
     margin-bottom: -10px;
 
+}
+
+#nav-links{
+    display: none;
+}
+
+#nav-links.open{
+    display: block;
+    animation-name: nav-animation;
+    animation-duration: 0.5s;
 }
 
 .nav-bar ul li{

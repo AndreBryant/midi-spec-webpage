@@ -12,18 +12,17 @@ window.addEventListener('load', ()=>{
         if(hamburgerIcon.src.endsWith('hamburger.svg')){
             //Open nav links
             hamburgerIcon.src = './img/X.svg';
-            navLinks.style.display = 'block';
+            // navLinks.style.display = 'block';
+            navLinks.classList.add('open');
         } else {
             //closed nav links
             hamburgerIcon.src = './img/hamburger.svg';
-            navLinks.style.display = 'none';
+            navLinks.classList.remove('open');
             if(navLinkClicked){
                 window.scrollTo(0,window.scrollY+150);
                 navLinkClicked = false;
             }
         }
         console.log(hamburgerIcon.src)
-
-
     })
 })
