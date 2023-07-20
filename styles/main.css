@@ -68,6 +68,7 @@ pre {
     max-width: 90%;
     margin-inline: auto;
     border-radius: 20px;
+    overflow-x: scroll;
 }
 
 code {
