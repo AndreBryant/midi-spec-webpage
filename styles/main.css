@@ -46,6 +46,10 @@ table{
     margin:25px auto;
 }
 
+.table-overflow{
+    overflow-x: scroll;
+}
+
 td {
     padding: 10px;
     font-size: 1.2em;
