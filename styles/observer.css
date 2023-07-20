@@ -9,5 +9,5 @@
 
 .hidden-burger {
     opacity: 0;
-    transition: ease-in 1s;
+    transition: ease 0.1s;
 }

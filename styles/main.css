@@ -22,9 +22,20 @@
 
 }
 
+.content h4{
+    font-weight: 350;
+    margin: 25px 35px;
+
+}
+
 .content p {
     font-weight: 200;
     margin-left: 50px;
+}
+
+.content a {
+    text-decoration: none;
+    color: white;
 }
 
 .title {
@@ -43,4 +54,25 @@ td {
 table, td {
     border: 1px solid white;
     border-collapse: collapse;
+}
+
+pre {
+    margin: 20px 0;
+    color: black;
+    background-color: white;
+    max-width: 90%;
+    margin-inline: auto;
+    border-radius: 20px;
+}
+
+code {
+    font-size: 1.20em;
+    font-family: monospace;
+}
+
+img.sheet-music {
+    display: block;
+    filter: invert(1);
+    width: 350px;
+    margin-inline: auto;
 }

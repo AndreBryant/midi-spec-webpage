@@ -18,7 +18,7 @@
     transition: 0.3s;
     z-index: 99;
     padding: 40px 120px;
-    background-color: rgba(0, 0, 0, 0.8);
+
 }
 
 .nav-bar img {
@@ -31,11 +31,12 @@
 }
 
 .nav-bar ul{
-    background-color: rgba(0, 0, 0, 0.436);
+    background-color: rgba(24, 24, 24, 0.436);
     list-style: none;
     display: none;
     margin-top: 10px;
     margin-bottom: -10px;
+    border: 1px solid rgba(255, 255, 255, 0.2) ;
 
 }
 
@@ -56,27 +57,27 @@
 
 .nav-bar ul li a{
     text-decoration: none;
-    color: black;
+    color: rgb(255, 255, 255);
     padding: inherit;
 
 }
 
 .nav-bar ul li a:hover {
     border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0.37);
+    background-color: rgba(64, 63, 63, 0.37);
 }
 
 .nav-bar.sticky {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(0, 0, 0, 0.9);
     border-bottom: 1px solid rgb(0, 0, 0);
     padding: 10px 0;
     transition: 0.3s; 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) ;
 }
 
 .nav-bar.sticky img { 
     width: 100px;
     height: 45px;
-    filter: invert(0);
 }
 
 #hamburger img{
@@ -88,4 +89,3 @@
     position: fixed;
     transition: 0.3s;
 }
-

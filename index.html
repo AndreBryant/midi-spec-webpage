@@ -23,8 +23,8 @@
     <nav class="nav-bar">
         <img src="img/MIDI_LOGO.png" alt="midi png">
         <ul id="nav-links">
-            <li><a href="#introduction" class="active">Introduction</a></li>
-            <li><a href="#sequences" class="">Sequences</a></li>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#sequences">Sequences</a></li>
             <li><a href="#chunk">Chunk</a></li>
             <li><a href="#meta">Meta</a></li>
             <li><a href="#appendices">Appendices</a></li>
@@ -449,11 +449,686 @@
                 status does not apply to and may not be used for these messages.
             </p>
         </div>
-        <div class="meta-contianer hidden">
+        <div class="meta-container hidden">
             <h2 class="title" id="meta">Meta-Events</h2>
+            <p>
+                A few meta-events are defined herein. It is not required for every program to support every meta-event.
+            </p>
+            <br>
+            <p>
+                In the syntax descriptions for each of the meta-events a set of conventions is used to describe parameters of the events. The FF which begins each event, the type of each event, and the lengths of events which do not have a variable amount of data are given directly in hexadecimal. A notation such as dd or se, which consists of two lower-case letters, mnemonically represents an 8-bit value. Four identical lower-case letters such as wwww mnemonically refer to a 16-bit value, stored most-significant-byte first. Six identical lower-case letters such as tttttt refer to a 24-bit value, stored most-significant-byte first. The notation len refers to the length portion of the meta-event syntax, that is, a number, stored as a variable- length quantity, which specifies how many bytes (possibly text) data were just specified by the length.
+            </p>
+            <br>
+            <p>
+                In general, meta-events in a track which occur at the same time may occur in any order. If a copyright event is used, it should be placed as early as possible in the file, so it will be noticed easily. Sequence Number and Sequence/Track Name events, if present, must appear at time 0. An end-of- track event must occur as the last event in the track.
+            </p>
+            <h3>3.1 - Meta-Event Definitions</h3>
+
+            <h4>FF 00 02 Sequence Number</h4>
+            <p>
+                This optional event, which must occur at the beginning of a track, before any nonzero delta-times, and before any transmittable MIDI events, specifies the number of a sequence. In a format 2 MIDI File, it is used to identify each "pattern" so that a "song" sequence using the Cue message can refer to the patterns. If the ID numbers are omitted, the sequences' locations in order in the file are used as defaults. In a format 0 or 1 MIDI File, which only contain one sequence, this number should be contained in the first (or only) track. If transfer of several multitrack sequences is required, this must be done as a group of format 1 files, each with a different sequence number.
+            </p>
+
+            <h4>FF 01 len text Text Event</h4>
+            <p>
+                Any amount of text describing anything. It is a good idea to put a text event right at the beginning of a track, with the name of the track, a description of its intended orchestration, and any other information which the user wants to put there. Text events may also occur at other times in a track, to be used as lyrics, or descriptions of cue points. The text in this event should be printable ASCII characters for maximum interchange. However, other character codes using the high-order bit may be used for interchange of files between different programs on the same computer which supports an extended character set. Programs on a computer which does not support non-ASCII characters should ignore those characters.
+                <br>
+                <br>
+                Meta-event types 01 through 0F are reserved for various types of text events, each of which meets the specification of text events (above) but is used for a different purpose:
+            </p>
+
+            <h4>FF 02 len text Copyright Notice</h4>
+            <p>
+                Contains a copyright notice as printable ASCII text. The notice should contain the characters (C), the year of the copyright, and the owner of the copyright. If several pieces of music are in the same MIDI File, all of the copyright notices should be placed together in this event so that it will be at the beginning of the file. This event should be the first event in the track chunk, at time 0.
+            </p>
+            <h4>FF 03 len text Sequence/Track Name</h4>
+            <p>
+                If in a format 0 track, or the first track in a format 1 file, the name of the sequence. Otherwise, the name of the track.
+            </p>
+
+            <h4>FF 04 len text Instrument Name</h4>
+            <p>
+                A description of the type of instrumentation to be used in that track. May be used with the MIDI Prefix meta-event to specify which MIDI channel the description applies to, or the channel may be specified as text in the event itself.
+            </p>
+
+            <h4>FF 05 len text Lyric</h4>
+            <p>
+                A lyric to be sung. Generally, each syllable will be a separate lyric event which begins at the event's time.
+            </p>
+
+            <h4>FF 06 len text Marker</h4>
+            <p>
+                Normally in a format 0 track, or the first track in a format 1 file. The name of that point in the sequence, such as a rehearsal letter or section name ("First Verse", etc.)
+            </p>
+
+            <h4>FF 07 len text Cue Point</h4>
+            <p>
+                A description of something happening on a film or video screen or stage at that point in the musical score ("Car crashes into house", "curtain opens", "she slaps his face", etc.)
+            </p>
+
+            <h4>FF 20 01 cc MIDI Channel Prefix</h4>
+            <p>
+                The MIDI channel (0-15) contained in this event may be used to associate a MIDI channel with all events which follow, including System exclusive and meta-events. This channel is "effective" until the next normal MIDI event (which contains a channel) or the next MIDI Channel Prefix meta-event. If MIDI channels refer to "tracks", this message may be put into a format 0 file, keeping their non-MIDI data associated with a track. This capability is also present in Yamaha's ESEQ file format.
+            </p>
+
+            <h4>FF 2F 00 End of Track</h4>
+            <p>
+                This event is not optional. It is included so that an exact ending point may be specified for the track, so that an exact length is defined, which is necessary for tracks which are looped or concatenated.
+            </p>
+
+            <h4>FF 51 03 tttttt Set Tempo (in microseconds per MIDI quarter-note)</h4>
+            <p>
+                This event indicates a tempo change. Another way of putting "microseconds per quarter-note" is "24ths of a microsecond per MIDI clock". Representing tempos as time per beat instead of beat per time allows absolutely exact long-term synchronisation with a time-based sync protocol such as SMPTE time code or MIDI time code. The amount of accuracy provided by this tempo resolution allows a four-minute piece at 120 beats per minute to be accurate within 500 usec at the end of the piece. Ideally, these events should only occur where MIDI clocks would be located -- this convention is intended to guarantee, or at least increase the likelihood, of compatibility with other synchronisation devices so that a time signature/tempo map stored in this format may easily be transferred to another device.
+            </p>
+
+            <h4>FF 54 05 hr mn se fr ff SMPTE Offset</h4>
+            <p>
+                This event, if present, designates the SMPTE time at which the track chunk is supposed to start. It should be present at the beginning of the track, that is, before any nonzero delta-times, and before any transmittable MIDI events. the hour must be encoded with the SMPTE format, just as it is in MIDI Time Code. In a format 1 file, the SMPTE Offset must be stored with the tempo map, and has no meaning in any of the other tracks. The ff field contains fractional frames, in 100ths of a frame, even in SMPTE-based tracks which specify a different frame subdivision for delta-times.
+            </p>
+
+            <h4>FF 58 04 nn dd cc bb Time Signature</h4>
+            <p>
+                The time signature is expressed as four numbers. nn and dd represent the numerator and denominator of the time signature as it would be notated. The denominator is a negative power of two: 2 represents a quarter-note, 3 represents an eighth-note, etc. The cc parameter expresses the number of MIDI clocks in a metronome click. The bb parameter expresses the number of notated 32nd-notes in a MIDI quarter-note (24 MIDI clocks). This was added because there are already multiple programs which allow a user to specify that what MIDI thinks of as a quarter-note (24 clocks) is to be notated as, or related to in terms of, something else.
+                <br><br>
+                Therefore, the complete event for 6/8 time, where the metronome clicks every three eighth-notes, but there are 24 clocks per quarter-note, 72 to the bar, would be (in hex):
+                <br><br>
+                FF 58 04 06 03 24 08
+                <br><br>
+                That is, 6/8 time (8 is 2 to the 3rd power, so this is 06 03), 36 MIDI clocks per dotted-quarter (24 hex!), and eight notated 32nd-notes per quarter-note.
+            </p>
+            <h4>FF 59 02 sf mi Key Signature</h4>
+            <p>
+                sf = -7: 7 flats
+                <br><br>
+                sf = -1: 1 flat
+                <br><br>
+                sf = 0: key of C
+                <br><br>
+                sf = 1: 1 sharp
+                <br><br>
+                sf = 7: 7 sharps
+                <br><br>
+                mi = 0: major key
+                <br><br>
+                mi = 1: minor key
+            </p>
+            <h4>FF 7F len data Sequencer Specific Meta-Event</h4>
+            <p>
+                Special requirements for particular sequencers may use this event type: the first byte or bytes of data is a manufacturer ID (these are one byte, or if the first byte is 00, three bytes). As with MIDI System Exclusive, manufacturers who define something using this meta-event should publish it so that others may be used by a sequencer which elects to use this as its only file format; sequencers with their established feature-specific formats should probably stick to the standard features when using this format.
+                <br><br>                    
+                <a href="">See Appendix 2</a> - Program Fragments and Example MIDI Files for an example midi file.
+            </p>
         </div>
         <div class="appendices-container hidden">
             <h2 class="title" id="appendices">Appendices</h2>
+            <h3>Appendix 1 - MIDI Messages</h3>
+            <p>
+                A MIDI message is made up of an eight-bit status byte which is generally followed by one or two data bytes. There are a number of different types of MIDI messages. At the highest level, MIDI messages are classified as being either Channel Messages or System Messages. Channel messages are those which apply to a specific Channel, and the Channel number is included in the status byte for these messages. System messages are not Channel specific, and no Channel number is indicated in their status bytes.
+                <br><br>
+                Channel Messages may be further classified as being either Channel Voice Messages, or Mode Messages. Channel Voice Messages carry musical performance data, and these messages comprise most of the traffic in a typical MIDI data stream. Channel Mode messages affect the way a receiving instrument will respond to the Channel Voice messages.
+                <br><br>
+                MIDI System Messages are classified as being System Common Messages, System Real Time Messages, or System Exclusive Messages. System Common messages are intended for all receivers in the system. System Real Time messages are used for synchronisation between clock-based MIDI components. System Exclusive messages include a Manufacturer's Identification (ID) code, and are used to transfer any number of data bytes in a format specified by the referenced manufacturer.
+            </p>
+            <h3>Appendix 1.1 - Table of Major MIDI Messages</h3>
+            <p><table border="1">
+            <tbody><tr><th colspan="3">Channel Voice Messages</th></tr>
+            <tr><th>Status<br>D7----D0<br>nnnn is the MIDI channel no.</th><th>Data Byte(s)<br>D7----D0</th><th>Description</th></tr>
+            <tr><td valign="TOP">1000nnnn</td><td valign="TOP">0kkkkkkk<br>0vvvvvvv</td><td>Note Off event.<br>
+            This message is sent when a note is released (ended).<br>
+            (kkkkkkk) is the key (note) number.<br>
+            (vvvvvvv) is the velocity.</td></tr>
+            <tr><td valign="TOP">1001nnnn</td><td valign="TOP">0kkkkkkk<br>0vvvvvvv</td><td>Note On event.<br>
+            This message is sent when a note is depressed (start).<br>
+            (kkkkkkk) is the key (note) number.<br>
+            (vvvvvvv) is the velocity.</td></tr>
+            <tr><td valign="TOP">1010nnnn</td><td valign="TOP">0kkkkkkk<br>0vvvvvvv</td><td>Polyphonic Key Pressure (Aftertouch).<br>
+            This message is most often sent by pressing down on the key after it "bottoms out".<br>
+            (kkkkkkk) is the key (note) number.<br>
+            (vvvvvvv) is the pressure value.</td></tr>
+            <tr><td valign="TOP">1011nnnn</td><td valign="TOP">0ccccccc<br>0vvvvvvv</td><td>Control Change.<br>
+            This message is sent when a controller value changes.  Controllers include devices
+            such as pedals and levers. Certain controller numbers are reserved
+            for specific purposes. See Channel Mode Messages.<br>
+            (ccccccc) is the controller number.<br>
+            (vvvvvvv) is the new value.</td></tr>
+            <tr><td valign="TOP">1100nnnn</td><td valign="TOP">0ppppppp</td><td>Program Change.<br>
+            This message sent when the patch number changes.<br>
+            (ppppppp) is the new program number.</td></tr>
+            <tr><td valign="TOP">1101nnnn</td><td valign="TOP">0vvvvvvv</td><td>Channel Pressure (After-touch).<br>
+            This message is most often sent by pressing down on the key after it "bottoms out".
+            This message is different from polyphonic after-touch. Use this message to send the single greatest
+            pressure value (of all the current depressed keys).<br>
+            (vvvvvvv) is the pressure value.</td></tr>
+            <tr><td valign="TOP">1110nnnn</td><td valign="TOP">0lllllll<br>0mmmmmmm</td><td>Pitch Wheel Change.<br>
+            This message is sent to indicate a change in the pitch wheel.  The pitch wheel is measured by a
+            fourteen bit value. Centre (no pitch change) is 2000H.  Sensitivity is a function of the transmitter.<br>
+            (lllllll) are the least significant 7 bits.<br>
+            (mmmmmmm) are the most significant 7 bits.</td></tr>
+            <tr><th colspan="3">Channel Mode Messages  (See also Control Change, above)</th></tr>
+            <tr><td valign="TOP">1011nnnn</td><td valign="TOP">0ccccccc<br>0vvvvvvv</td><td>Channel Mode Messages.<br>
+            This the same code as the Control Change (above), but implements Mode control by using reserved
+            controller numbers.  The numbers are:<br>
+            Local Control.<br>
+            When Local Control is Off, all devices on a given channel will respond only to data received
+            over MIDI.  Played data, etc. will be ignored.  Local Control On restores the functions of the
+            normal controllers.<br>
+            c = 122, v = 0: Local Control Off<br>
+            c = 122, v = 127: Local Control On<br>
+            All Notes Off.<br>
+            When an All Notes Off is received all oscillators will turn off.<br>
+            c = 123, v = 0: All Notes Off<br>
+            c = 124, v = 0: Omni Mode Off<br>
+            c = 125, v = 0: Omni Mode On<br>
+            c = 126, v = M: Mono Mode On (Poly Off) where M is the number of channels (Omni Off) or 0 (Omni On)<br>
+            c = 127, v = 0: Poly Mode On (Mono Off)
+            (Note: These four messages also cause All Notes Off)</td></tr>
+            <tr><th colspan="3">System Common Messages</th></tr>
+            <tr><td valign="TOP">11110000</td><td valign="TOP">0iiiiiii<br>0ddddddd<br>..<br>..<br>0ddddddd<br>11110111</td><td valign="TOP">System Exclusive.<br>
+            This message makes up for all that MIDI doesn't support. (iiiiiii) is usually a seven-bit Manufacturer's I.D. code.
+            If the synthesiser recognises the I.D. code as its own, it will listen to the rest of
+            the message (ddddddd).  Otherwise, the message will be ignored.  System Exclusive
+            is used to send bulk dumps such as patch parameters and other non-spec data.
+            (Note: Real-Time messages ONLY may be interleaved with a System Exclusive.)
+            This message also is used for extensions called Universal Exclusive Messages.</td></tr>
+            <tr><td>11110001</td><td>&nbsp;</td><td>Undefined.</td></tr>
+            <tr><td valign="TOP">11110010</td><td valign="TOP">0lllllll<br>0mmmmmmm</td><td>Song Position Pointer.<br>
+            This is an internal 14 bit register that holds the number of MIDI beats (1 beat=
+            six MIDI clocks) since the start of the song.  l is the LSB, m the MSB.</td></tr>
+            <tr><td valign="TOP">11110011</td><td valign="TOP">0sssssss</td><td>Song Select.<br>
+            The Song Select specifies which sequence or song is to be played.</td></tr>
+            <tr><td>11110100</td><td>&nbsp;</td><td>Undefined.</td></tr>
+            <tr><td>11110101</td><td>&nbsp;</td><td>Undefined.</td></tr>
+            <tr><td valign="TOP">11110110</td><td valign="TOP">&nbsp;</td><td>Tune Request.<br>
+            Upon receiving a Tune Request, all analog synthesisers should tune their oscillators.</td></tr>
+            <tr><td valign="TOP">11110111</td><td valign="TOP">&nbsp;</td><td>End of Exclusive.<br>
+            Used to terminate a System Exclusive dump (see above).</td></tr>
+            <tr><th colspan="3">System Real-Time Messages</th></tr>
+            <tr><td valign="TOP">11111000</td><td valign="TOP">&nbsp;</td><td>Timing Clock.<br>
+            Sent 24 times per quarter note when synchronisation is required.</td></tr>
+            <tr><td valign="TOP">11111001</td><td valign="TOP">&nbsp;</td><td>Undefined.</td></tr>
+            <tr><td valign="TOP">11111010</td><td valign="TOP">&nbsp;</td><td>Start.<br>
+            Start the current sequence playing. (This message will be followed with Timing Clocks).</td></tr>
+            <tr><td valign="TOP">11111011</td><td valign="TOP">&nbsp;</td><td>Continue.<br>
+            Continue at the point the sequence was Stopped.</td></tr>
+            <tr><td valign="TOP">11111100</td><td valign="TOP">&nbsp;</td><td>Stop.<br>
+            Stop the current sequence.</td></tr>
+            <tr><td valign="TOP">11111101</td><td valign="TOP">&nbsp;</td><td>Undefined.<br></td></tr>
+            <tr><td valign="TOP">11111110</td><td valign="TOP">&nbsp;</td><td>Active Sensing.<br>
+            Use of this message is optional. When initially sent, the receiver will expect
+            to receive another Active Sensing message each 300ms (max), or it will be assume
+            that the connection has been terminated. At termination, the receiver will turn off
+            all voices and return to normal (non-active sensing) operation.</td></tr>
+            <tr><td valign="TOP">11111111</td><td valign="TOP">&nbsp;</td><td>Reset.<br>
+            Reset all receivers in the system to power-up status. This should be used
+            sparingly, preferably under manual control. In particular, it should not
+            be sent on power-up.<br>In a MIDI file this is used as an escape to introduce
+            &lt;meta events&gt;.</td></tr>
+            </tbody></table>
+            </p>
+            <center><h3><a name="BMA1_2">Appendix 1.2 - Table of MIDI Controller Messages (Data Bytes)</a></h3></center>
+            <p align="LEFT">
+            The following table lists the MIDI Controller messages in numerical (binary) order.</p><p>
+            <table border="2">
+            <tbody><tr><th colspan="3">2nd Byte Value</th><th>Function</th><th colspan="2">3rd Byte</th></tr>
+            <tr><th>Binary</th><th>Hex</th><th>Dec</th><th>&nbsp;</th><th>Value</th><th>Use</th></tr>
+            <tr><td>00000000</td><td>00</td><td>0</td><td>Bank Select</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00000001</td><td>01</td><td>1</td><td>* Modulation wheel</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00000010</td><td>02</td><td>2</td><td>Breath control</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00000011</td><td>03</td><td>3</td><td>Undefined</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00000100</td><td>04</td><td>4</td><td>Foot controller</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00000101</td><td>05</td><td>5</td><td>Portamento time</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00000110</td><td>06</td><td>6</td><td>Data Entry</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00000111</td><td>07</td><td>7</td><td>* Channel Volume (formerly Main Volume)</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00001000</td><td>08</td><td>8</td><td>Balance</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00001001</td><td>09</td><td>9</td><td>Undefined</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00001010</td><td>0A</td><td>10</td><td>* Pan</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00001011</td><td>0B</td><td>11</td><td>* Expression Controller</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00001100</td><td>0C</td><td>12</td><td>Effect control 1</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00001101</td><td>0D</td><td>13</td><td>Effect control 2</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00001110</td><td>0E</td><td>14</td><td>Undefined</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00001111</td><td>0F</td><td>15</td><td>Undefined</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00010000</td><td>10</td><td>16</td><td>General Purpose Controller #1</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00010001</td><td>11</td><td>17</td><td>General Purpose Controller #2</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00010010</td><td>12</td><td>18</td><td>General Purpose Controller #3</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00010011</td><td>13</td><td>19</td><td>General Purpose Controller #4</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00010100</td><td>14</td><td>20</td><td>Undefined</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00010101</td><td>15</td><td>21</td><td>Undefined</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00010110</td><td>16</td><td>22</td><td>Undefined</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00010111</td><td>17</td><td>23</td><td>Undefined</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00011000</td><td>18</td><td>24</td><td>Undefined</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00011001</td><td>19</td><td>25</td><td>Undefined</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00011010</td><td>1A</td><td>26</td><td>Undefined</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00011011</td><td>1B</td><td>27</td><td>Undefined</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00011100</td><td>1C</td><td>28</td><td>Undefined</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00011101</td><td>1D</td><td>29</td><td>Undefined</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00011110</td><td>1E</td><td>30</td><td>Undefined</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00011111</td><td>1F</td><td>31</td><td>Undefined</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>00100000</td><td>20</td><td>32</td><td>Bank Select</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00100001</td><td>21</td><td>33</td><td>Modulation wheel</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00100010</td><td>22</td><td>34</td><td>Breath control</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00100011</td><td>23</td><td>35</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00100100</td><td>24</td><td>36</td><td>Foot controller</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00100101</td><td>25</td><td>37</td><td>Portamento time</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00100110</td><td>26</td><td>38</td><td>Data entry</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00100111</td><td>27</td><td>39</td><td>Channel Volume (formerly Main Volume)</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00101000</td><td>28</td><td>40</td><td>Balance</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00101001</td><td>29</td><td>41</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00101010</td><td>2A</td><td>42</td><td>Pan</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00101011</td><td>2B</td><td>43</td><td>Expression Controller</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00101100</td><td>2C</td><td>44</td><td>Effect control 1</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00101101</td><td>2D</td><td>45</td><td>Effect control 2</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00101110</td><td>2E</td><td>46</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00101111</td><td>2F</td><td>47</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00110000</td><td>30</td><td>48</td><td>General Purpose Controller #1</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00110001</td><td>31</td><td>49</td><td>General Purpose Controller #2</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00110010</td><td>32</td><td>50</td><td>General Purpose Controller #3</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00110011</td><td>33</td><td>51</td><td>General Purpose Controller #4</td><td>0-127</td><td>LSB</td></tr> 
+            <tr><td>00110100</td><td>34</td><td>52</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00110101</td><td>35</td><td>53</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00110110</td><td>36</td><td>54</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00110111</td><td>37</td><td>55</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00111000</td><td>38</td><td>56</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00111001</td><td>39</td><td>57</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00111010</td><td>3A</td><td>58</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr> 
+            <tr><td>00111011</td><td>3B</td><td>59</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00111100</td><td>3C</td><td>60</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00111101</td><td>3D</td><td>61</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00111110</td><td>3E</td><td>62</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>00111111</td><td>3F</td><td>63</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01000000</td><td>40</td><td>64</td><td>* Damper pedal on/off (Sustain)</td><td>&lt;63=off</td><td>&gt;64=on</td></tr>
+            <tr><td>01000001</td><td>41</td><td>65</td><td>Portamento on/off</td><td>&lt;63=off</td><td>&gt;64=on</td></tr>
+            <tr><td>01000010</td><td>42</td><td>66</td><td>Sustenuto on/off</td><td>&lt;63=off</td><td>&gt;64=on</td></tr>
+            <tr><td>01000011</td><td>43</td><td>67</td><td>Soft pedal on/off</td><td>&lt;63=off</td><td>&gt;64=on</td></tr>
+            <tr><td>01000100</td><td>44</td><td>68</td><td>Legato Footswitch</td><td>&lt;63=off</td><td>&gt;64=on</td></tr>
+            <tr><td>01000101</td><td>45</td><td>69</td><td>Hold 2</td><td>&lt;63=off</td><td>&gt;64=on</td></tr>
+            <tr><td>01000110</td><td>46</td><td>70</td><td>Sound Controller 1 (Sound Variation)</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01000111</td><td>47</td><td>71</td><td>Sound Controller 2 (Timbre)</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01001000</td><td>48</td><td>72</td><td>Sound Controller 3 (Release Time)</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01001001</td><td>49</td><td>73</td><td>Sound Controller 4 (Attack Time)</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01001010</td><td>4A</td><td>74</td><td>Sound Controller 5 (Brightness)</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01001011</td><td>4B</td><td>75</td><td>Sound Controller 6</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01001100</td><td>4C</td><td>76</td><td>Sound Controller 7</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01001101</td><td>4D</td><td>77</td><td>Sound Controller 8</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01001110</td><td>4E</td><td>78</td><td>Sound Controller 9</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01001111</td><td>4F</td><td>79</td><td>Sound Controller 10</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01010000</td><td>50</td><td>80</td><td>General Purpose Controller #5</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01010001</td><td>51</td><td>81</td><td>General Purpose Controller #6</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01010010</td><td>52</td><td>82</td><td>General Purpose Controller #7</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01010011</td><td>53</td><td>83</td><td>General Purpose Controller #8</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01010100</td><td>54</td><td>84</td><td>Portamento Control</td><td>0-127</td><td>Source Note</td></tr>
+            <tr><td>01010101</td><td>55</td><td>85</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01010110</td><td>56</td><td>86</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01010111</td><td>57</td><td>87</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01011000</td><td>58</td><td>88</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01011001</td><td>59</td><td>89</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01011010</td><td>5A</td><td>90</td><td>Undefined</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01011011</td><td>5B</td><td>91</td><td>Effects 1 Depth</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01011100</td><td>5C</td><td>92</td><td>Effects 2 Depth</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01011101</td><td>5D</td><td>93</td><td>Effects 3 Depth</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01011110</td><td>5E</td><td>94</td><td>Effects 4 Depth</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01011111</td><td>5F</td><td>95</td><td>Effects 5 Depth</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td colspan="6">&nbsp;</td></tr>
+            <tr><td>01100000</td><td>60</td><td>96</td><td>Data entry +1</td><td>N/A</td><td>&nbsp;</td></tr>
+            <tr><td>01100001</td><td>61</td><td>97</td><td>Data entry -1</td><td>N/A</td><td>&nbsp;</td></tr>
+            <tr><td>01100010</td><td>62</td><td>98</td><td>Non-Registered Parameter Number LSB</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01100011</td><td>63</td><td>99</td><td>Non-Registered Parameter Number MSB</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>01100100</td><td>64</td><td>100</td><td>* Registered Parameter Number LSB</td><td>0-127</td><td>LSB</td></tr>
+            <tr><td>01100101</td><td>65</td><td>101</td><td>* Registered Parameter Number MSB</td><td>0-127</td><td>MSB</td></tr>
+            <tr><td>01100110</td><td>66</td><td>102</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
+            <tr><td>01100111</td><td>67</td><td>103</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
+            <tr><td>01101000</td><td>68</td><td>104</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
+            <tr><td>01101001</td><td>69</td><td>105</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
+            <tr><td>01101010</td><td>6A</td><td>106</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
+            <tr><td>01101011</td><td>6B</td><td>107</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
+            <tr><td>01101100</td><td>6C</td><td>108</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
+            <tr><td>01101101</td><td>6D</td><td>109</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
+            <tr><td>01101110</td><td>6E</td><td>110</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
+            <tr><td>01101111</td><td>6F</td><td>111</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
+            <tr><td>01110000</td><td>70</td><td>112</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
+            <tr><td>01110001</td><td>71</td><td>113</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
+            <tr><td>01110010</td><td>72</td><td>114</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
+            <tr><td>01110011</td><td>73</td><td>115</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
+            <tr><td>01110100</td><td>74</td><td>116</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
+            <tr><td>01110101</td><td>75</td><td>117</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
+            <tr><td>01110110</td><td>76</td><td>118</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
+            <tr><td>01110111</td><td>77</td><td>119</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
+            <tr><td colspan="6">&nbsp;</td></tr>
+            <tr><td>01111000</td><td>78</td><td>120</td><td>All Sound Off</td><td>0</td><td>&nbsp;</td></tr>
+            <tr><td>01111001</td><td>79</td><td>121</td><td>* Reset All Controllers</td><td>0</td><td>&nbsp;</td></tr>
+            <tr><td>01111010</td><td>7A</td><td>122</td><td>Local control on/off</td><td>0=off</td><td>127=on</td></tr>   
+            <tr><td>01111011</td><td>7B</td><td>123</td><td>* All notes off</td><td>0</td><td>&nbsp;</td></tr>
+            <tr><td>01111100</td><td>7C</td><td>124</td><td>Omni mode off (+ all notes off)</td><td>0</td><td>&nbsp;</td></tr>
+            <tr><td>01111101</td><td>7D</td><td>125</td><td>Omni mode on (+ all notes off)</td><td>0</td><td>&nbsp;</td></tr>
+            <tr><td>01111110</td><td>7E</td><td>126</td><td>Poly mode on/off (+ all notes off)</td><td>**</td><td>&nbsp;</td></tr>
+            <tr><td>01111111</td><td>7F</td><td>127</td><td>Poly mode on (incl mono=off +all notes off)</td><td>0</td><td>&nbsp;</td></tr>
+            </tbody></table>
+            * Equipment must respond in order to comply with General MIDI level 1.<br>
+            ** This equals the number of channels, or zero if the number of channels
+            equals the number of voices in the receiver.
+            </p>
+            <center><h3><a name="BMA1_3">Appendix 1.3 - Table of MIDI Note Numbers</a></h3></center>
+            <p align="LEFT">
+            This table lists all MIDI Note Numbers by octave.
+            </p><p>
+            <i>The absolute octave number designations are based on Middle C = C4,
+            which is an arbitrary but widely used assignment.</i>
+            </p><p>
+            <table border="1">
+            <tbody><tr><th>Octave #</th><th colspan="12">Note Numbers</th></tr>
+            <tr><th>&nbsp;</th><th>C</th><th>C#</th><th>D</th><th>D#</th><th>E</th><th>F</th>
+            <th>F#</th><th>G</th><th>G#</th><th>A</th><th>A#</th><th>B</th></tr>
+            <tr><td>-1</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td></tr>
+            <tr><td>0</td><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td></tr>
+            <tr><td>1</td><td>24</td><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td><td>32</td><td>33</td><td>34</td><td>35</td></tr>
+            <tr><td>2</td><td>36</td><td>37</td><td>38</td><td>39</td><td>40</td><td>41</td><td>42</td><td>43</td><td>44</td><td>45</td><td>46</td><td>47</td></tr>
+            <tr><td>3</td><td>48</td><td>49</td><td>50</td><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td><td>56</td><td>57</td><td>58</td><td>59</td></tr>
+            <tr><td>4</td><td>60</td><td>61</td><td>62</td><td>63</td><td>64</td><td>65</td><td>66</td><td>67</td><td>68</td><td>69</td><td>70</td><td>71</td></tr>
+            <tr><td>5</td><td>72</td><td>73</td><td>74</td><td>75</td><td>76</td><td>77</td><td>78</td><td>79</td><td>80</td><td>81</td><td>82</td><td>83</td></tr>
+            <tr><td>6</td><td>84</td><td>85</td><td>86</td><td>87</td><td>88</td><td>89</td><td>90</td><td>91</td><td>92</td><td>93</td><td>94</td><td>95</td></tr>
+            <tr><td>7</td><td>96</td><td>97</td><td>98</td><td>99</td><td>100</td><td>101</td><td>102</td><td>103</td><td>104</td><td>105</td><td>106</td><td>107</td></tr>
+            <tr><td>8</td><td>108</td><td>109</td><td>110</td><td>111</td><td>112</td><td>113</td><td>114</td><td>115</td><td>116</td><td>117</td><td>118</td><td>119</td></tr>
+            <tr><td>9</td><td>120</td><td>121</td><td>122</td><td>123</td><td>124</td><td>125</td><td>126</td><td>127</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            </tbody></table>
+            </p>
+            <center><h3><a name="BMA1_4">Appendix 1.4 - General MIDI Instrument Patch Map</a></h3></center>
+            <p align="LEFT"></p><ul>
+            <li>The names of the instruments indicate what sort of sound will
+            be heard when that instrument number (MIDI Program Change or "PC#")
+            is selected on the GM synthesizer.
+            </li><li>These sounds are the same for all MIDI Channels except Channel
+            10, which has only percussion sounds and some sound "effects".
+            (See <a href="#BMA1_5">Appendix 1.5</a> - General MIDI Percussion Key Map)
+            </li></ul>
+            <h3>GM Instrument Families </h3>
+            <p>
+            The General MIDI instrument sounds are grouped by families. In
+            each family are 8 specific instruments.
+            </p><p>
+            <table border="3">
+            <tbody><tr><th>PC#</th><th>Family</th><th>PC#</th><th>Family</th></tr>
+            <tr><td>1-8</td><td>Piano</td><td>65-72</td><td>Reed</td></tr>
+            <tr><td>9-16</td><td>Chromatic Percussion</td><td>73-80</td><td>Pipe</td></tr>
+            <tr><td>17-24</td><td>Organ</td><td>81-88</td><td>Synth Lead</td></tr>
+            <tr><td>25-32</td><td>Guitar</td><td>89-96</td><td>Synth Pad</td></tr>
+            <tr><td>33-40</td><td>Bass</td><td>97-104</td><td>Synth Effects</td></tr>
+            <tr><td>41-48</td><td>Strings</td><td>105-112</td><td>Ethnic</td></tr>
+            <tr><td>49-56</td><td>Ensemble</td><td>113-120</td><td>Percussive</td></tr>
+            <tr><td>57-64</td><td>Brass</td><td>121-128</td><td>Sound Effects</td></tr>
+            </tbody></table>
+            </p><h3>GM Instrument Patch Map</h3>
+            <p>
+            <b>Note:</b> While GM does not define the actual characteristics
+            of any sounds, the names in parentheses after each of the synth
+            leads, pads, and sound effects are, in particular, intended only
+            as guides.
+            </p><p>
+            <table border="3">
+            <tbody><tr><th>PC#</th><th>Instrument</th><th>PC#</th><th>Instrument</th></tr>
+            <tr><td>1.</td><td>Acoustic Grand Piano</td><td>65.</td><td>Soprano Sax</td></tr>
+            <tr><td>2.</td><td>Bright Acoustic Piano</td><td>66.</td><td>Alto Sax</td></tr>
+            <tr><td>3.</td><td>Electric Grand Piano</td><td>67.</td><td>Tenor Sax</td></tr>
+            <tr><td>4.</td><td>Honky-tonk Piano</td><td>68.</td><td>Baritone Sax</td></tr>
+            <tr><td>5.</td><td>Electric Piano 1 (Rhodes Piano)</td><td>69.</td><td>Oboe</td></tr>
+            <tr><td>6.</td><td>Electric Piano 2 (Chorused Piano)</td><td>70.</td><td>English Horn</td></tr>
+            <tr><td>7.</td><td>Harpsichord</td><td>71.</td><td>Bassoon</td></tr>
+            <tr><td>8.</td><td>Clavinet</td><td>72.</td><td>Clarinet</td></tr>
+            <tr><td>9.</td><td>Celesta</td><td>73.</td><td>Piccolo</td></tr>
+            <tr><td>10.</td><td>Glockenspiel</td><td>74.</td><td>Flute</td></tr>
+            <tr><td>11.</td><td>Music Box</td><td>75.</td><td>Recorder</td></tr>
+            <tr><td>12.</td><td>Vibraphone</td><td>76.</td><td>Pan Flute</td></tr>
+            <tr><td>13.</td><td>Marimba</td><td>77.</td><td>Blown Bottle</td></tr>
+            <tr><td>14.</td><td>Xylophone</td><td>78.</td><td>Shakuhachi</td></tr>
+            <tr><td>15.</td><td>Tubular Bells</td><td>79.</td><td>Whistle</td></tr>
+            <tr><td>16.</td><td>Dulcimer (Santur)</td><td>80.</td><td>Ocarina</td></tr>
+            <tr><td>17.</td><td>Drawbar Organ (Hammond)</td><td>81.</td><td>Lead 1 (square wave)</td></tr>
+            <tr><td>18.</td><td>Percussive Organ</td><td>82.</td><td>Lead 2 (sawtooth wave)</td></tr>
+            <tr><td>19.</td><td>Rock Organ</td><td>83.</td><td>Lead 3 (calliope)</td></tr>
+            <tr><td>20.</td><td>Church Organ</td><td>84.</td><td>Lead 4 (chiffer)</td></tr>
+            <tr><td>21.</td><td>Reed Organ</td><td>85.</td><td>Lead 5 (charang)</td></tr>
+            <tr><td>22.</td><td>Accordion (French)</td><td>86.</td><td>Lead 6 (voice solo)</td></tr>
+            <tr><td>23.</td><td>Harmonica</td><td>87.</td><td>Lead 7 (fifths)</td></tr>
+            <tr><td>24.</td><td>Tango Accordion (Band neon)</td><td>88.</td><td>Lead 8 (bass + lead)</td></tr>
+            <tr><td>25.</td><td>Acoustic Guitar (nylon)</td><td>89.</td><td>Pad 1 (new age Fantasia)</td></tr>
+            <tr><td>26.</td><td>Acoustic Guitar (steel)</td><td>90.</td><td>Pad 2 (warm)</td></tr>
+            <tr><td>27.</td><td>Electric Guitar (jazz)</td><td>91.</td><td>Pad 3 (polysynth)</td></tr>
+            <tr><td>28.</td><td>Electric Guitar (clean)</td><td>92.</td><td>Pad 4 (choir space voice)</td></tr>
+            <tr><td>29.</td><td>Electric Guitar (muted)</td><td>93.</td><td>Pad 5 (bowed glass)</td></tr>
+            <tr><td>30.</td><td>Overdriven Guitar</td><td>94.</td><td>Pad 6 (metallic pro)</td></tr>
+            <tr><td>31.</td><td>Distortion Guitar</td><td>95.</td><td>Pad 7 (halo)</td></tr>
+            <tr><td>32.</td><td>Guitar harmonics</td><td>96.</td><td>Pad 8 (sweep)</td></tr>
+            <tr><td>33.</td><td>Acoustic Bass</td><td>97.</td><td>FX 1 (rain)</td></tr>
+            <tr><td>34.</td><td>Electric Bass (fingered)</td><td>98.</td><td>FX 2 (soundtrack)</td></tr>
+            <tr><td>35.</td><td>Electric Bass (picked)</td><td>99.</td><td>FX 3 (crystal)</td></tr>
+            <tr><td>36.</td><td>Fretless Bass</td><td>100.</td><td>FX 4 (atmosphere)</td></tr>
+            <tr><td>37.</td><td>Slap Bass 1</td><td>101.</td><td>FX 5 (brightness)</td></tr>
+            <tr><td>38.</td><td>Slap Bass 2</td><td>102.</td><td>FX 6 (goblins)</td></tr>
+            <tr><td>39.</td><td>Synth Bass 1</td><td>103.</td><td>FX 7 (echoes, drops)</td></tr>
+            <tr><td>40.</td><td>Synth Bass 2</td><td>104.</td><td>FX 8 (sci-fi, star theme)</td></tr>
+            <tr><td>41.</td><td>Violin</td><td>105.</td><td>Sitar</td></tr>
+            <tr><td>42.</td><td>Viola</td><td>106.</td><td>Banjo</td></tr>
+            <tr><td>43.</td><td>Cello</td><td>107.</td><td>Shamisen</td></tr>
+            <tr><td>44.</td><td>Contrabass</td><td>108.</td><td>Koto</td></tr>
+            <tr><td>45.</td><td>Tremolo Strings</td><td>109.</td><td>Kalimba</td></tr>
+            <tr><td>46.</td><td>Pizzicato Strings</td><td>110.</td><td>Bag pipe</td></tr>
+            <tr><td>47.</td><td>Orchestral Harp</td><td>111.</td><td>Fiddle</td></tr>
+            <tr><td>48.</td><td>Timpani</td><td>112.</td><td>Shanai</td></tr>
+            <tr><td>49.</td><td>String Ensemble 1 (strings)</td><td>113.</td><td>Tinkle Bell</td></tr>
+            <tr><td>50.</td><td>String Ensemble 2 (slow strings)</td><td>114.</td><td>Agogo</td></tr>
+            <tr><td>51.</td><td>SynthStrings 1</td><td>115.</td><td>Steel Drums</td></tr>
+            <tr><td>52.</td><td>SynthStrings 2</td><td>116.</td><td>Woodblock</td></tr>
+            <tr><td>53.</td><td>Choir Aahs</td><td>117.</td><td>Taiko Drum</td></tr>
+            <tr><td>54.</td><td>Voice Oohs</td><td>118.</td><td>Melodic Tom</td></tr>
+            <tr><td>55.</td><td>Synth Voice</td><td>119.</td><td>Synth Drum</td></tr>
+            <tr><td>56.</td><td>Orchestra Hit</td><td>120.</td><td>Reverse Cymbal</td></tr>
+            <tr><td>57.</td><td>Trumpet</td><td>121.</td><td>Guitar Fret Noise</td></tr>
+            <tr><td>58.</td><td>Trombone</td><td>122.</td><td>Breath Noise</td></tr>
+            <tr><td>59.</td><td>Tuba</td><td>123.</td><td>Seashore</td></tr>
+            <tr><td>60.</td><td>Muted Trumpet</td><td>124.</td><td>Bird Tweet</td></tr>
+            <tr><td>61.</td><td>French Horn</td><td>125.</td><td>Telephone Ring</td></tr>
+            <tr><td>62.</td><td>Brass Section</td><td>126.</td><td>Helicopter</td></tr>
+            <tr><td>63.</td><td>SynthBrass 1</td><td>127.</td><td>Applause</td></tr>
+            <tr><td>64.</td><td>SynthBrass 2</td><td>128.</td><td>Gunshot</td></tr>
+            </tbody></table>
+            </p>
+            <center><h3><a name="BMA1_5">Appendix 1.5 - General MIDI Percussion Key Map</a></h3></center>
+            <p align="LEFT">
+            On MIDI Channel 10, each MIDI Note number ("Key#") corresponds
+            to a different drum sound, as shown below.
+            GM-compatible instruments must have the sounds on the keys
+            shown here. While many current instruments also have additional
+            sounds above or below the range show here, and may even have
+            additional "kits" with variations of these sounds, only these
+            sounds are supported by General MIDI.
+            </p><p>
+            <table border="2">
+            <tbody><tr><th>Key#</th><th>Note</th><th>Drum Sound</th><th>Key#</th><th>Note</th><th>Drum Sound</th></tr>
+            <tr><td>35</td><td>B1</td><td>Acoustic Bass Drum</td><td>59</td><td>B3</td><td>Ride Cymbal 2</td></tr>
+            <tr><td>36</td><td>C2</td><td>Bass Drum 1</td><td>60</td><td>C4</td><td>Hi Bongo</td></tr>
+            <tr><td>37</td><td>C#2</td><td>Side Stick</td><td>61</td><td>C#4</td><td>Low Bongo</td></tr>
+            <tr><td>38</td><td>D2</td><td>Acoustic Snare</td><td>62</td><td>D4</td><td>Mute Hi Conga</td></tr>
+            <tr><td>39</td><td>D#2</td><td>Hand Clap</td><td>63</td><td>D#4</td><td>Open Hi Conga</td></tr>
+            <tr><td>40</td><td>E2</td><td>Electric Snare</td><td>64</td><td>E4</td><td>Low Conga</td></tr>
+            <tr><td>41</td><td>F2</td><td>Low Floor Tom</td><td>65</td><td>F4</td><td>High Timbale</td></tr>
+            <tr><td>42</td><td>F#2</td><td>Closed Hi Hat</td><td>66</td><td>F#4</td><td>Low Timbale</td></tr>
+            <tr><td>43</td><td>G2</td><td>High Floor Tom</td><td>67</td><td>G4</td><td>High Agogo</td></tr>
+            <tr><td>44</td><td>G#2</td><td>Pedal Hi-Hat</td><td>68</td><td>G#4</td><td>Low Agogo</td></tr>
+            <tr><td>45</td><td>A2</td><td>Low Tom</td><td>69</td><td>A4</td><td>Cabasa</td></tr>
+            <tr><td>46</td><td>A#2</td><td>Open Hi-Hat</td><td>70</td><td>A#4</td><td>Maracas</td></tr>
+            <tr><td>47</td><td>B2</td><td>Low-Mid Tom</td><td>71</td><td>B4</td><td>Short Whistle</td></tr>
+            <tr><td>48</td><td>C3</td><td>Hi Mid Tom</td><td>72</td><td>C5</td><td>Long Whistle</td></tr>
+            <tr><td>49</td><td>C#3</td><td>Crash Cymbal 1</td><td>73</td><td>C#5</td><td>Short Guiro</td></tr>
+            <tr><td>50</td><td>D3</td><td>High Tom</td><td>74</td><td>D5</td><td>Long Guiro</td></tr>
+            <tr><td>51</td><td>D#3</td><td>Ride Cymbal 1</td><td>75</td><td>D#5</td><td>Claves</td></tr>
+            <tr><td>52</td><td>E3</td><td>Chinese Cymbal</td><td>76</td><td>E5</td><td>Hi Wood Block</td></tr>
+            <tr><td>53</td><td>F3</td><td>Ride Bell</td><td>77</td><td>F5</td><td>Low Wood Block</td></tr>
+            <tr><td>54</td><td>F#3</td><td>Tambourine</td><td>78</td><td>F#5</td><td>Mute Cuica</td></tr>
+            <tr><td>55</td><td>G3</td><td>Splash Cymbal</td><td>79</td><td>G5</td><td>Open Cuica</td></tr>
+            <tr><td>56</td><td>G#3</td><td>Cowbell</td><td>80</td><td>G#5</td><td>Mute Triangle</td></tr>
+            <tr><td>57</td><td>A3</td><td>Crash Cymbal 2</td><td>81</td><td>A5</td><td>Open Triangle</td></tr>
+            <tr><td>58</td><td>A#3</td><td>Vibraslap</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            </tbody></table>
+            </p>
+            <h3>Appendix 2 - Program Fragments and Example MIDI Files</h3>
+            <p>
+                Here are some of the routines to read and write variable-length numbers in MIDI Files. These routines are in C, and use getc and putc, which read and write single 8-bit characters from/to the files infile and outfile.
+            </p>
+            <pre>
+        <code>
+        WriteVarLen(value)
+        register long value;
+        {
+        register long buffer;
+        buffer = value & 0x7f;
+        while((value >>= 7) > 0)
+        {
+        buffer <<= 8;
+        buffer |= 0x80;
+        buffer += (value &0x7f);
+        }
+
+        while (TRUE)
+        {
+        putc(buffer,outfile);
+        if(buffer & 0x80) buffer >>= 8;
+        else
+        break;
+        }
+        }
+
+        doubleword ReadVarLen()
+        {
+        register doubleword value;
+        register byte c;
+
+        if((value = getc(infile)) & 0x80)
+        {
+        value &= 0x7f;
+        do
+        {
+        value = (value << 7) + ((c = getc(infile))) & 0x7f);
+        } while (c & 0x80);
+        }
+        return(value);
+        }
+    </code>
+            </pre>
+            <p>
+                As an example, MIDI Files for the following excerpt are shown below. First, a format 0 file is shown, with all information intermingled; then, a format 1 file is shown with all data separated into four tracks: one for tempo and time signature, and three for the notes. A resolution of 96 "ticks" per quarter note is used. A time signature of 4/4 and a tempo of 120, though implied, are explicitly stated.
+            </p>
+            <img src="img/test.gif" alt="Sheet music Picture Here" class="sheet-music">
+
+            <p>The contents of the MIDI stream represented by this example are broken down here:</p>
+
+            <table border="1">
+                <tbody><tr><th>Delta-Time<br> (decimal)</th><th>Event-Code<br> (hex)</th><th>Other Bytes<br> (decimal)</th><th>Comment</th></tr>
+                <tr><td>0 </td><td>FF 58 </td><td>04 04 02 24 08 </td><td>4 bytes; 4/4 time; 24 MIDI clocks/click, 8 32nd notes/ 24 MIDI clocks (24 MIDI clocks = 1 crotchet = 1 beat)</td></tr>
+                <tr><td>0 </td><td>FF 51 </td><td>03 500000 </td><td>3 bytes: 500,000 usec/ quarter note = 120 beats/minute</td></tr>
+                <tr><td>0 </td><td>C0 </td><td>5 </td><td>Ch.1 Program Change 5 = GM Patch 6 = Electric Piano 2</td></tr>
+                <tr><td>0 </td><td>C1 </td><td>46 </td><td>Ch.2 Program Change 46 = GM Patch 47 = Harp</td></tr>
+                <tr><td>0 </td><td>C2 </td><td>70 </td><td>Ch.3 Program Change 70 = GM Patch 71 = Bassoon</td></tr>
+                <tr><td>0 </td><td>92 </td><td>48 96 </td><td>Ch.3 Note On C3, forte</td></tr>
+                <tr><td>0 </td><td>92 </td><td>60 96 </td><td>Ch.3 Note On C4, forte</td></tr>
+                <tr><td>96 </td><td>91 </td><td>67 64 </td><td>Ch.2 Note On G4, mezzo-forte</td></tr>
+                <tr><td>96 </td><td>90 </td><td>76 32 </td><td>Ch.1 Note On E5, piano</td></tr>
+                <tr><td>192 </td><td>82 </td><td>48 64 </td><td>Ch.3 Note Off C3, standard</td></tr>
+                <tr><td>0 </td><td>82 </td><td>60 64 </td><td>Ch.3 Note Off C4, standard</td></tr>
+                <tr><td>0 </td><td>81 </td><td>67 64 </td><td>Ch.2 Note Off G4, standard</td></tr>
+                <tr><td>0 </td><td>80 </td><td>76 64 </td><td>Ch.1 Note Off E5, standard</td></tr>
+                <tr><td>0 </td><td>FF 2F </td><td>00 </td><td>Track End</td></tr>
+                </tbody></table>
+                The entire format 0 MIDI file contents in hex follow. First, the header chunk:
+                <table border="1">
+                <tbody><tr><td>4D 54 68 64 </td><td>MThd</td></tr>
+                <tr><td>00 00 00 06 </td><td>chunk length</td></tr>
+                <tr><td>00 00 </td><td>format 0</td></tr>
+                <tr><td>00 01 </td><td>one track</td></tr>
+                <tr><td>00 60 </td><td>96 per quarter-note</td></tr>
+                </tbody></table>
+                Then the track chunk. Its header followed by the events (notice the running status is used in places):
+                <table border="1">
+                <tbody><tr><td>4D 54 72 6B </td><td>MTrk</td></tr>
+                <tr><td> 00 00 00 3B </td><td>chunk length (59)</td></tr>
+                </tbody></table>
+                <table border="1">
+                <tbody><tr><th>Delta-Time </th><th>Event </th><th>Comments</th></tr>
+                <tr><td>00 </td><td>FF 58 04 04 02 18 08 </td><td>time signature</td></tr>
+                <tr><td>00 </td><td>FF 51 03 07 A1 20 </td><td>tempo</td></tr>
+                <tr><td>00 </td><td>C0 05 </td><td>&nbsp;</td></tr>
+                <tr><td>00 </td><td>C1 2E</td><td>&nbsp;</td></tr>
+                <tr><td>00 </td><td>C2 46</td><td>&nbsp;</td></tr>
+                <tr><td>00 </td><td>92 30 60</td><td>&nbsp;</td></tr>
+                <tr><td>00 </td><td>3C 60 </td><td>running status</td></tr>
+                <tr><td>60 </td><td>91 43 40</td><td>&nbsp;</td></tr>
+                <tr><td>60 </td><td>90 4C 20</td><td>&nbsp;</td></tr>
+                <tr><td>81 40 </td><td>82 30 40 </td><td>two-byte delta-time</td></tr>
+                <tr><td>00 </td><td>3C 40 </td><td>running status</td></tr>
+                <tr><td>00 </td><td>81 43 40</td><td>&nbsp;</td></tr>
+                <tr><td>00 </td><td>80 4C 40</td><td>&nbsp;</td></tr>
+                <tr><td>00 </td><td>FF 2F 00 </td><td>end of track</td></tr>
+                </tbody></table>
+                A format 1 representation of the file is slightly different.
+                Its header chunk:
+                <table border="1">
+                <tbody><tr><td>4D 54 68 64 </td><td>MThd</td></tr>
+                <tr><td>00 00 00 06 </td><td>chunk length</td></tr>
+                <tr><td>00 01 </td><td>format 1</td></tr>
+                <tr><td>00 04 </td><td>four tracks</td></tr>
+                <tr><td>00 60 </td><td>96 per quarter note</td></tr>
+                </tbody></table>
+                First, the track chunk for the time signature/tempo track. Its
+                header, followed by the events:
+                <table border="1">
+                <tbody><tr><td>4D 54 72 6B </td><td>MTrk</td></tr>
+                <tr><td>00 00 00 14 </td><td>chunk length (20)</td></tr>
+                </tbody></table>
+                <table border="1">
+                <tbody><tr><th>Delta-Time </th><th>Event </th><th>Comments</th></tr>
+                <tr><td>00 </td><td>FF 58 04 04 02 18 08 </td><td>time signature</td></tr>
+                <tr><td>00 </td><td>FF 51 03 07 A1 20 </td><td>tempo</td></tr>
+                <tr><td>83 00 </td><td>FF 2F 00 </td><td>end of track</td></tr>
+                </tbody></table>
+                Then, the track chunk for the first music track. The MIDI
+                convention for note on/off running status is used in this
+                example:
+                <table border="1">
+                <tbody><tr><td>4D 54 72 6B </td><td>MTrk</td></tr>
+                <tr><td>00 00 00 10 </td><td>chunk length (16)</td></tr>
+                </tbody></table>
+                <table border="1">
+                <tbody><tr><th>Delta-Time </th><th>Event </th><th>Comments</th></tr>
+                <tr><td>00 </td><td>C0 05</td><td>&nbsp;</td></tr>
+                <tr><td>81 40 </td><td>90 4C 20</td><td>&nbsp;</td></tr>
+                <tr><td>81 40 </td><td>4C 00 </td><td>Running status: note on, vel=0</td></tr>
+                <tr><td>00 FF 2F 00</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                </tbody></table>
+                Then, the track chunk for the second music track:
+                <table border="1">
+                <tbody><tr><td>4D 54 72 6B </td><td>MTrk</td></tr>
+                <tr><td>00 00 00 0F </td><td>chunk length (15)</td></tr>
+                </tbody></table>
+                <table border="1">
+                <tbody><tr><th>Delta-Time </th><th>Event </th><th>Comments</th></tr>
+                <tr><td>00 </td><td>C1 2E</td><td>&nbsp;</td></tr>
+                <tr><td>60 </td><td>91 43 40</td><td>&nbsp;</td></tr>
+                <tr><td>82 20 </td><td>43 00 </td><td>running status</td></tr>
+                <tr><td>00 </td><td>FF 2F 00 </td><td>end of track</td></tr>
+                </tbody></table>
+                Then, the track chunk for the third music track:
+                <table border="1">
+                <tbody><tr><td>4D 54 72 6B </td><td>MTrk</td></tr>
+                <tr><td>00 00 00 15 </td><td>chunk length (21)</td></tr>
+                </tbody></table>
+                <table border="1">
+                <tbody><tr><th>Delta-Time </th><th>Event </th><th>Comments</th></tr>
+                <tr><td>00 </td><td>C2 46</td><td>&nbsp;</td></tr>
+                <tr><td>00 </td><td>92 30 60</td><td>&nbsp;</td></tr>
+                <tr><td>00 </td><td>3C 60 </td><td>running status</td></tr>
+                <tr><td>83 00 </td><td>30 00 </td><td>two-byte delta-time, running status</td></tr>
+                <tr><td>00 </td><td>3C 00 </td><td>running status</td></tr>
+                <tr><td> 00 </td><td>FF 2F 00 </td><td>end of track</td></tr>
+                </tbody></table>
+
+                END.
         </div>     
     </main>
 
