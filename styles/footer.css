@@ -1,0 +1,15 @@
+footer{
+    border-top: 1px solid rgba(255, 255, 255, 0.484);
+    width: 100vw;
+    height: 30vh;
+}
+
+.footer-texts{
+    width: 75vw;
+    display: block;
+    margin: 50px auto;
+}
+
+footer p {
+    font-weight: 100;
+}
