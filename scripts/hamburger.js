@@ -10,12 +10,9 @@ window.addEventListener('load', ()=>{
 
     hambruger.addEventListener('click', ()=>{
         if(hamburgerIcon.src.endsWith('hamburger.svg')){
-            //Open nav links
             hamburgerIcon.src = './img/X.svg';
-            // navLinks.style.display = 'block';
             navLinks.classList.add('open');
         } else {
-            //closed nav links
             hamburgerIcon.src = './img/hamburger.svg';
             navLinks.classList.remove('open');
             if(navLinkClicked){
@@ -23,6 +20,5 @@ window.addEventListener('load', ()=>{
                 navLinkClicked = false;
             }
         }
-        console.log(hamburgerIcon.src)
     })
 })

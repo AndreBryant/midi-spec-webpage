@@ -47,8 +47,8 @@ table{
 }
 
 .table-overflow{
-    width: 100vw;
-    overflow-x: scroll;
+    width: 90vw;
+    overflow-x: auto;
 }
 
 td {
@@ -68,7 +68,7 @@ pre {
     max-width: 90%;
     margin-inline: auto;
     border-radius: 20px;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 code {

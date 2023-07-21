@@ -6,14 +6,10 @@ window.addEventListener('load', ()=>{
             if (entry.isIntersecting) {
                 entry.target.classList.add('show');
             } else {
-                // if the texts need to fade out again after beeing off screen, then uncomment the line of code below.
-                
+                // if the texts need to fade out again after being off screen, then uncomment the line of code below.
                 // entry.target.classList.remove('show');
             }
         });
     });
-    
     hiddenElements.forEach((el) => observer.observe(el));
-
-  
 })
