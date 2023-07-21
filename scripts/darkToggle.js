@@ -8,7 +8,6 @@ window.addEventListener('load', () => {
         } else {
             all.style.filter=`invert(${value--})`;
         }
-        console.log(value)
     })
 
     // Add event listeners for mouse events
