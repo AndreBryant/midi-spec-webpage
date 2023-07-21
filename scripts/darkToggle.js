@@ -1,7 +1,8 @@
 window.addEventListener('load', () => {
     var darkToggle = document.querySelector('.toggler');
     var all = document.querySelector('.the-forbidden')
-    var value = 0;
+    var value = Number(all.style.filter.charAt(all.style.filter.length-1));
+
     darkToggle.addEventListener('click', () => {
         if(!value){
             all.style.filter=`invert(${value++})`;
@@ -9,10 +10,9 @@ window.addEventListener('load', () => {
             all.style.filter=`invert(${value--})`;
         }
     })
-
-    // Add event listeners for mouse events
+    
     darkToggle.addEventListener('mousedown', () => {
-        darkToggle.classList.add('active'); // Apply a class when the button is pressed
+        darkToggle.classList.add('active'); 
         setTimeout(()=>{darkToggle.classList.remove('active')}
         ,1000)
     });
