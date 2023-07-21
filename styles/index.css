@@ -75,8 +75,7 @@ body::-webkit-scrollbar {
 }
 
 .toggler.active{
-    transition: 1s ease;
-    animation-play-state: paused;
+    transition: 1s linear;
     animation: togglerActive 1s infinite ease;
     
     /* animation: toggler 1s infinite linear; */

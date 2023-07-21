@@ -1,9 +1,9 @@
 window.addEventListener('load', () => {
     var darkToggle = document.querySelector('.toggler');
     var all = document.querySelector('html');
-    var value = localStorage.getItem('value');
+    var value = (localStorage.getItem('value') !== null)? Number(localStorage.getItem('value')) : 0;
 
-    value = (value !== null)? parseInt(value) : 0;
+    all.style.filter = `invert(${value})`;
 
     darkToggle.addEventListener('click', () => {
         value = (value === 0)? 1:0;
@@ -16,6 +16,4 @@ window.addEventListener('load', () => {
         setTimeout(()=>{darkToggle.classList.remove('active')}
         ,1000)
     });
-    
-    all.style.filter = `invert(${value})`;
 })
