@@ -47,6 +47,8 @@ table{
 }
 
 .table-overflow{
+    display: block;
+    margin-inline: auto;
     width: 90vw;
     overflow-x: auto;
 }
