@@ -10,6 +10,11 @@ html {
     overflow-x: hidden;
 }
 
+.the-forbidden{
+    transition: 0.5s;
+    filter: invert(1);
+}
+
 *, *::before, *::after {
     margin:0;
     padding:0;
@@ -40,3 +45,46 @@ body::-webkit-scrollbar {
   body::-webkit-scrollbar-thumb:hover {
     background: #aaa; /* Set the color of the scrollbar thumb on hover */
   }
+
+/* Button to toggle light or dark mode */
+
+.toggler {
+    position: absolute;
+    position: fixed;
+    top: 85%;
+    right: 3%;
+
+    background-color: white;
+    color: black;
+
+    padding: 10px;
+
+    border-radius: 100%;
+    border: none;
+
+    transition: 0.5 ease;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.toggler:hover{
+    transition: 0.5s ease;
+    transform: scale(1.1);
+}
+
+.toggler.active{
+    transition: 1s ease;
+    animation-play-state: paused;
+    animation: togglerHover 1s infinite ease;
+    
+    /* animation: toggler 1s infinite linear; */
+}
+
+@keyframes togglerHover {
+    0% {transform:scale(1) rotate(0deg);}
+    50% {transform: scale(1.1) rotate(90deg);}
+    100% {transform:scale(1) rotate(180deg);}
+}
