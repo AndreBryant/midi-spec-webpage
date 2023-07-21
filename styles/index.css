@@ -28,7 +28,7 @@ body {
 
 /* Create a custom scrollbar style. Created by Chat GPT */
 body::-webkit-scrollbar {
-    width: 5px; /* Set the width of the custom scrollbar */
+    width: 10px; /* Set the width of the custom scrollbar */
   }
   
   body::-webkit-scrollbar-track {
@@ -36,15 +36,14 @@ body::-webkit-scrollbar {
   }
   
   body::-webkit-scrollbar-thumb {
-    background: #ccc; /* Set the color of the scrollbar thumb (the draggable part) */
+    background: white; /* Set the color of the scrollbar thumb (the draggable part) */
   }
   
   body::-webkit-scrollbar-thumb:hover {
-    background: #aaa; /* Set the color of the scrollbar thumb on hover */
+    background: rgba(255, 255, 255, 0.502); /* Set the color of the scrollbar thumb on hover */
   }
 
 /* Button to toggle light or dark mode */
-
 .toggler {
     position: absolute;
     position: fixed;
