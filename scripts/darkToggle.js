@@ -1,6 +1,6 @@
 window.addEventListener('load', () => {
     var darkToggle = document.querySelector('.toggler');
-    var all = document.querySelector('.the-forbidden')
+    var all = document.querySelector('html');
     var value = Number(all.style.filter.charAt(all.style.filter.length-1));
 
     darkToggle.addEventListener('click', () => {

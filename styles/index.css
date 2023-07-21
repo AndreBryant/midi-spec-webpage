@@ -7,12 +7,10 @@
 html {
     scroll-behavior: smooth;
     scroll-padding-top: 17rem;
-}
-
-.the-forbidden{
     transition: 0.5s;
     filter: invert(1);
 }
+
 
 *, *::before, *::after {
     margin:0;
@@ -61,7 +59,7 @@ body::-webkit-scrollbar {
     border-radius: 100%;
     border: none;
 
-    transition: 0.5 ease;
+    transition: 0.5;
 
     display: flex;
     justify-content: center;
@@ -79,13 +77,13 @@ body::-webkit-scrollbar {
 .toggler.active{
     transition: 1s ease;
     animation-play-state: paused;
-    animation: togglerHover 1s infinite ease;
+    animation: togglerActive 1s infinite ease;
     
     /* animation: toggler 1s infinite linear; */
 }
 
-@keyframes togglerHover {
+@keyframes togglerActive {
     0% {transform:scale(1) rotate(0deg);}
-    50% {transform: scale(1.1) rotate(360deg);}
+    50% {transform: scale(1.1) rotate(90deg);}
     100% {transform:scale(1) rotate(180deg);}
 }
