@@ -57,6 +57,7 @@ table{
 
 td,th {
     text-align: center;
+    vertical-align: middle;
     letter-spacing: 2px;
     padding: 10px;
     font-size: 1.2em;

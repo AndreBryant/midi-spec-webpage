@@ -20,7 +20,7 @@
     <script src="scripts/darkToggle.js"></script>
 </head>
 <body>
-    <button type="button" class="toggler"><img src="img/light.svg" alt="ligth"></button>
+    <button type="button" class="toggler"><img src="img/light.svg" alt=""></button>
     <nav class="nav-bar">
         <img src="img/MIDI_LOGO.png" alt="midi png">
         <ul id="nav-links">
@@ -585,39 +585,39 @@
                 <p><table border="1">
                 <tbody><tr><th colspan="3">Channel Voice Messages</th></tr>
                 <tr><th>Status<br>D7----D0<br>nnnn is the MIDI channel no.</th><th>Data Byte(s)<br>D7----D0</th><th>Description</th></tr>
-                <tr><td valign="TOP">1000nnnn</td><td valign="TOP">0kkkkkkk<br>0vvvvvvv</td><td>Note Off event.<br>
+                <tr><td>1000nnnn</td><td>0kkkkkkk<br>0vvvvvvv</td><td>Note Off event.<br>
                 This message is sent when a note is released (ended).<br>
                 (kkkkkkk) is the key (note) number.<br>
                 (vvvvvvv) is the velocity.</td></tr>
-                <tr><td valign="TOP">1001nnnn</td><td valign="TOP">0kkkkkkk<br>0vvvvvvv</td><td>Note On event.<br>
+                <tr><td>1001nnnn</td><td>0kkkkkkk<br>0vvvvvvv</td><td>Note On event.<br>
                 This message is sent when a note is depressed (start).<br>
                 (kkkkkkk) is the key (note) number.<br>
                 (vvvvvvv) is the velocity.</td></tr>
-                <tr><td valign="TOP">1010nnnn</td><td valign="TOP">0kkkkkkk<br>0vvvvvvv</td><td>Polyphonic Key Pressure (Aftertouch).<br>
+                <tr><td>1010nnnn</td><td>0kkkkkkk<br>0vvvvvvv</td><td>Polyphonic Key Pressure (Aftertouch).<br>
                 This message is most often sent by pressing down on the key after it "bottoms out".<br>
                 (kkkkkkk) is the key (note) number.<br>
                 (vvvvvvv) is the pressure value.</td></tr>
-                <tr><td valign="TOP">1011nnnn</td><td valign="TOP">0ccccccc<br>0vvvvvvv</td><td>Control Change.<br>
+                <tr><td>1011nnnn</td><td>0ccccccc<br>0vvvvvvv</td><td>Control Change.<br>
                 This message is sent when a controller value changes.  Controllers include devices
                 such as pedals and levers. Certain controller numbers are reserved
                 for specific purposes. See Channel Mode Messages.<br>
                 (ccccccc) is the controller number.<br>
                 (vvvvvvv) is the new value.</td></tr>
-                <tr><td valign="TOP">1100nnnn</td><td valign="TOP">0ppppppp</td><td>Program Change.<br>
+                <tr><td>1100nnnn</td><td>0ppppppp</td><td>Program Change.<br>
                 This message sent when the patch number changes.<br>
                 (ppppppp) is the new program number.</td></tr>
-                <tr><td valign="TOP">1101nnnn</td><td valign="TOP">0vvvvvvv</td><td>Channel Pressure (After-touch).<br>
+                <tr><td>1101nnnn</td><td>0vvvvvvv</td><td>Channel Pressure (After-touch).<br>
                 This message is most often sent by pressing down on the key after it "bottoms out".
                 This message is different from polyphonic after-touch. Use this message to send the single greatest
                 pressure value (of all the current depressed keys).<br>
                 (vvvvvvv) is the pressure value.</td></tr>
-                <tr><td valign="TOP">1110nnnn</td><td valign="TOP">0lllllll<br>0mmmmmmm</td><td>Pitch Wheel Change.<br>
+                <tr><td>1110nnnn</td><td>0lllllll<br>0mmmmmmm</td><td>Pitch Wheel Change.<br>
                 This message is sent to indicate a change in the pitch wheel.  The pitch wheel is measured by a
                 fourteen bit value. Centre (no pitch change) is 2000H.  Sensitivity is a function of the transmitter.<br>
                 (lllllll) are the least significant 7 bits.<br>
                 (mmmmmmm) are the most significant 7 bits.</td></tr>
                 <tr><th colspan="3">Channel Mode Messages  (See also Control Change, above)</th></tr>
-                <tr><td valign="TOP">1011nnnn</td><td valign="TOP">0ccccccc<br>0vvvvvvv</td><td>Channel Mode Messages.<br>
+                <tr><td>1011nnnn</td><td>0ccccccc<br>0vvvvvvv</td><td>Channel Mode Messages.<br>
                 This the same code as the Control Change (above), but implements Mode control by using reserved
                 controller numbers.  The numbers are:<br>
                 Local Control.<br>
@@ -635,7 +635,7 @@
                 c = 127, v = 0: Poly Mode On (Mono Off)
                 (Note: These four messages also cause All Notes Off)</td></tr>
                 <tr><th colspan="3">System Common Messages</th></tr>
-                <tr><td valign="TOP">11110000</td><td valign="TOP">0iiiiiii<br>0ddddddd<br>..<br>..<br>0ddddddd<br>11110111</td><td valign="TOP">System Exclusive.<br>
+                <tr><td>11110000</td><td>0iiiiiii<br>0ddddddd<br>..<br>..<br>0ddddddd<br>11110111</td><td>System Exclusive.<br>
                 This message makes up for all that MIDI doesn't support. (iiiiiii) is usually a seven-bit Manufacturer's I.D. code.
                 If the synthesiser recognises the I.D. code as its own, it will listen to the rest of
                 the message (ddddddd).  Otherwise, the message will be ignored.  System Exclusive
@@ -643,34 +643,34 @@
                 (Note: Real-Time messages ONLY may be interleaved with a System Exclusive.)
                 This message also is used for extensions called Universal Exclusive Messages.</td></tr>
                 <tr><td>11110001</td><td>-</td><td>Undefined.</td></tr>
-                <tr><td valign="TOP">11110010</td><td valign="TOP">0lllllll<br>0mmmmmmm</td><td>Song Position Pointer.<br>
+                <tr><td>11110010</td><td>0lllllll<br>0mmmmmmm</td><td>Song Position Pointer.<br>
                 This is an internal 14 bit register that holds the number of MIDI beats (1 beat=
                 six MIDI clocks) since the start of the song.  l is the LSB, m the MSB.</td></tr>
-                <tr><td valign="TOP">11110011</td><td valign="TOP">0sssssss</td><td>Song Select.<br>
+                <tr><td>11110011</td><td>0sssssss</td><td>Song Select.<br>
                 The Song Select specifies which sequence or song is to be played.</td></tr>
                 <tr><td>11110100</td><td>-</td><td>Undefined.</td></tr>
                 <tr><td>11110101</td><td>-</td><td>Undefined.</td></tr>
-                <tr><td valign="TOP">11110110</td><td valign="TOP">&nbsp;</td><td>Tune Request.<br>
+                <tr><td>11110110</td><td>&nbsp;</td><td>Tune Request.<br>
                 Upon receiving a Tune Request, all analog synthesisers should tune their oscillators.</td></tr>
-                <tr><td valign="TOP">11110111</td><td valign="TOP">&nbsp;</td><td>End of Exclusive.<br>
+                <tr><td>11110111</td><td>&nbsp;</td><td>End of Exclusive.<br>
                 Used to terminate a System Exclusive dump (see above).</td></tr>
                 <tr><th colspan="3">System Real-Time Messages</th></tr>
-                <tr><td valign="TOP">11111000</td><td valign="TOP">&nbsp;</td><td>Timing Clock.<br>
+                <tr><td>11111000</td><td>&nbsp;</td><td>Timing Clock.<br>
                 Sent 24 times per quarter note when synchronisation is required.</td></tr>
-                <tr><td valign="TOP">11111001</td><td valign="TOP">&nbsp;</td><td>Undefined.</td></tr>
-                <tr><td valign="TOP">11111010</td><td valign="TOP">&nbsp;</td><td>Start.<br>
+                <tr><td>11111001</td><td>&nbsp;</td><td>Undefined.</td></tr>
+                <tr><td>11111010</td><td>&nbsp;</td><td>Start.<br>
                 Start the current sequence playing. (This message will be followed with Timing Clocks).</td></tr>
-                <tr><td valign="TOP">11111011</td><td valign="TOP">&nbsp;</td><td>Continue.<br>
+                <tr><td>11111011</td><td>&nbsp;</td><td>Continue.<br>
                 Continue at the point the sequence was Stopped.</td></tr>
-                <tr><td valign="TOP">11111100</td><td valign="TOP">&nbsp;</td><td>Stop.<br>
+                <tr><td>11111100</td><td>&nbsp;</td><td>Stop.<br>
                 Stop the current sequence.</td></tr>
-                <tr><td valign="TOP">11111101</td><td valign="TOP">&nbsp;</td><td>Undefined.<br></td></tr>
-                <tr><td valign="TOP">11111110</td><td valign="TOP">&nbsp;</td><td>Active Sensing.<br>
+                <tr><td>11111101</td><td>&nbsp;</td><td>Undefined.<br></td></tr>
+                <tr><td>11111110</td><td>&nbsp;</td><td>Active Sensing.<br>
                 Use of this message is optional. When initially sent, the receiver will expect
                 to receive another Active Sensing message each 300ms (max), or it will be assume
                 that the connection has been terminated. At termination, the receiver will turn off
                 all voices and return to normal (non-active sensing) operation.</td></tr>
-                <tr><td valign="TOP">11111111</td><td valign="TOP">&nbsp;</td><td>Reset.<br>
+                <tr><td>11111111</td><td>&nbsp;</td><td>Reset.<br>
                 Reset all receivers in the system to power-up status. This should be used
                 sparingly, preferably under manual control. In particular, it should not
                 be sent on power-up.<br>In a MIDI file this is used as an escape to introduce

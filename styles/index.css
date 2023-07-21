@@ -51,8 +51,8 @@ body::-webkit-scrollbar {
 .toggler {
     position: absolute;
     position: fixed;
-    top: 85%;
-    right: 3%;
+    top: 90%;
+    right: 10px;
 
     background-color: white;
     color: black;
@@ -67,6 +67,8 @@ body::-webkit-scrollbar {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    z-index: 999999999999999;
     
 }
 
@@ -85,6 +87,6 @@ body::-webkit-scrollbar {
 
 @keyframes togglerHover {
     0% {transform:scale(1) rotate(0deg);}
-    50% {transform: scale(1.1) rotate(90deg);}
+    50% {transform: scale(1.1) rotate(360deg);}
     100% {transform:scale(1) rotate(180deg);}
 }
