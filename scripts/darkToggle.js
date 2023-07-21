@@ -1,14 +1,14 @@
 window.addEventListener('load', () => {
     var darkToggle = document.querySelector('.toggler');
     var all = document.querySelector('html');
-    var value = Number(all.style.filter.charAt(all.style.filter.length-1));
+    var value = localStorage.getItem('value');
+
+    value = (value !== null)? parseInt(value) : 0;
 
     darkToggle.addEventListener('click', () => {
-        if(!value){
-            all.style.filter=`invert(${value++})`;
-        } else {
-            all.style.filter=`invert(${value--})`;
-        }
+        value = (value === 0)? 1:0;
+        all.style.filter = `invert(${value})`;
+        localStorage.setItem('value', value);
     })
     
     darkToggle.addEventListener('mousedown', () => {
@@ -16,5 +16,6 @@ window.addEventListener('load', () => {
         setTimeout(()=>{darkToggle.classList.remove('active')}
         ,1000)
     });
-
+    
+    all.style.filter = `invert(${value})`;
 })
