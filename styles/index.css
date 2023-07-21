@@ -23,3 +23,20 @@ body {
     min-height: 100vh;
     color: white;
 }
+
+/* Create a custom scrollbar style. Created by Chat GPT */
+body::-webkit-scrollbar {
+    width: 5px; /* Set the width of the custom scrollbar */
+  }
+  
+  body::-webkit-scrollbar-track {
+    background: transparent; /* Set the background color of the scrollbar track */
+  }
+  
+  body::-webkit-scrollbar-thumb {
+    background: #ccc; /* Set the color of the scrollbar thumb (the draggable part) */
+  }
+  
+  body::-webkit-scrollbar-thumb:hover {
+    background: #aaa; /* Set the color of the scrollbar thumb on hover */
+  }

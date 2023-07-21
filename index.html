@@ -83,7 +83,8 @@
             <p>
                 Some examples of numbers represented as variable-length quantities:
             </p>
-            <table>
+            <div class="table-overflow">
+                <table>
                 <tbody><tr><td>00000000 </td><td>00</td></tr>
                 <tr><td>00000040 </td><td>40</td></tr>
                 <tr><td>0000007F </td><td>7F</td></tr>
@@ -97,7 +98,9 @@
                 <tr><td>08000000 </td><td>C0 80 80 00</td></tr>
                 <tr><td>0FFFFFFF </td><td>FF FF FF 7F</td></tr>
                 </tbody>
-            </table>
+                </table>
+            </div>
+            
             <p>
                 The largest number which is allowed is 0FFFFFFF so that the variable-length representations must fit in 32 bits in a routine to write variable-length numbers. Theoretically, larger numbers are possible, but 2 x 108 96ths of a beat at a fast tempo of 500 beats per minute is four days, long enough for any delta-time!
             </p>
@@ -185,13 +188,16 @@
                 delta-times. It has two formats, one for metrical time, and one
                 for time-code-based time:
             </p>
-            <table>
+            <div class="table-overflow">
+                <table>
                 <tbody>
                     <tr><th>bit 15 </th><th>bits 14 thru 8</th><th>bits 7 thru 0</th></tr>
                     <tr><td>0 </td><td colspan="2">ticks per quarter-note</td></tr>
                     <tr><td>1 </td><td>negative SMPTE format </td><td>ticks per frame</td></tr>
                 </tbody>
-            </table>
+                </table>
+            </div>
+            
             <p>
                 If bit 15 of &lt;division&gt; is zero, the bits 14 thru 0
                 represent the number of delta time "ticks" which make
@@ -406,15 +412,18 @@
                 followed by a 100-tick delay, followed by the bytes 43 12 00 F7,
                 this would be in the MIDI File:
             </p>
-            <table>
-                <tbody>
-                    <tr><td>F0 03 43 12 00</td><td>&nbsp;</td></tr>
-                    <tr><td>81 48 </td><td>200-tick delta time</td></tr>
-                    <tr><td>F7 06 43 12 00 43 12 00</td><td>&nbsp;</td></tr>
-                    <tr><td>64 </td><td>100-tick delta time</td></tr>
-                    <tr><td>F7 04 43 12 00 F7</td><td>&nbsp;</td></tr>
-                </tbody>
-            </table>
+            <div class="table-overflow">
+                <table>
+                    <tbody>
+                        <tr><td>F0 03 43 12 00</td><td>-</td></tr>
+                        <tr><td>81 48 </td><td>200-tick delta time</td></tr>
+                        <tr><td>F7 06 43 12 00 43 12 00</td><td>-</td></tr>
+                        <tr><td>64 </td><td>100-tick delta time</td></tr>
+                        <tr><td>F7 04 43 12 00 F7</td><td>-</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
             <p>
                 When reading a MIDI File, and an F7 sysex event is encountered
                 without a preceding F0 sysex event to start a multi-packet system
@@ -632,14 +641,14 @@
                 is used to send bulk dumps such as patch parameters and other non-spec data.
                 (Note: Real-Time messages ONLY may be interleaved with a System Exclusive.)
                 This message also is used for extensions called Universal Exclusive Messages.</td></tr>
-                <tr><td>11110001</td><td>&nbsp;</td><td>Undefined.</td></tr>
+                <tr><td>11110001</td><td>-</td><td>Undefined.</td></tr>
                 <tr><td valign="TOP">11110010</td><td valign="TOP">0lllllll<br>0mmmmmmm</td><td>Song Position Pointer.<br>
                 This is an internal 14 bit register that holds the number of MIDI beats (1 beat=
                 six MIDI clocks) since the start of the song.  l is the LSB, m the MSB.</td></tr>
                 <tr><td valign="TOP">11110011</td><td valign="TOP">0sssssss</td><td>Song Select.<br>
                 The Song Select specifies which sequence or song is to be played.</td></tr>
-                <tr><td>11110100</td><td>&nbsp;</td><td>Undefined.</td></tr>
-                <tr><td>11110101</td><td>&nbsp;</td><td>Undefined.</td></tr>
+                <tr><td>11110100</td><td>-</td><td>Undefined.</td></tr>
+                <tr><td>11110101</td><td>-</td><td>Undefined.</td></tr>
                 <tr><td valign="TOP">11110110</td><td valign="TOP">&nbsp;</td><td>Tune Request.<br>
                 Upon receiving a Tune Request, all analog synthesisers should tune their oscillators.</td></tr>
                 <tr><td valign="TOP">11110111</td><td valign="TOP">&nbsp;</td><td>End of Exclusive.<br>
@@ -773,38 +782,38 @@
                 <tr><td>01011101</td><td>5D</td><td>93</td><td>Effects 3 Depth</td><td>0-127</td><td>LSB</td></tr>
                 <tr><td>01011110</td><td>5E</td><td>94</td><td>Effects 4 Depth</td><td>0-127</td><td>LSB</td></tr>
                 <tr><td>01011111</td><td>5F</td><td>95</td><td>Effects 5 Depth</td><td>0-127</td><td>LSB</td></tr>
-                <tr><td>01100000</td><td>60</td><td>96</td><td>Data entry +1</td><td>N/A</td><td>&nbsp;</td></tr>
-                <tr><td>01100001</td><td>61</td><td>97</td><td>Data entry -1</td><td>N/A</td><td>&nbsp;</td></tr>
+                <tr><td>01100000</td><td>60</td><td>96</td><td>Data entry +1</td><td>N/A</td><td>-</td></tr>
+                <tr><td>01100001</td><td>61</td><td>97</td><td>Data entry -1</td><td>N/A</td><td>-</td></tr>
                 <tr><td>01100010</td><td>62</td><td>98</td><td>Non-Registered Parameter Number LSB</td><td>0-127</td><td>LSB</td></tr>
                 <tr><td>01100011</td><td>63</td><td>99</td><td>Non-Registered Parameter Number MSB</td><td>0-127</td><td>MSB</td></tr>
                 <tr><td>01100100</td><td>64</td><td>100</td><td>* Registered Parameter Number LSB</td><td>0-127</td><td>LSB</td></tr>
                 <tr><td>01100101</td><td>65</td><td>101</td><td>* Registered Parameter Number MSB</td><td>0-127</td><td>MSB</td></tr>
-                <tr><td>01100110</td><td>66</td><td>102</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
-                <tr><td>01100111</td><td>67</td><td>103</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
-                <tr><td>01101000</td><td>68</td><td>104</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
-                <tr><td>01101001</td><td>69</td><td>105</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
-                <tr><td>01101010</td><td>6A</td><td>106</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
-                <tr><td>01101011</td><td>6B</td><td>107</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
-                <tr><td>01101100</td><td>6C</td><td>108</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
-                <tr><td>01101101</td><td>6D</td><td>109</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
-                <tr><td>01101110</td><td>6E</td><td>110</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
-                <tr><td>01101111</td><td>6F</td><td>111</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
-                <tr><td>01110000</td><td>70</td><td>112</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
-                <tr><td>01110001</td><td>71</td><td>113</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
-                <tr><td>01110010</td><td>72</td><td>114</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
-                <tr><td>01110011</td><td>73</td><td>115</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
-                <tr><td>01110100</td><td>74</td><td>116</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
-                <tr><td>01110101</td><td>75</td><td>117</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
-                <tr><td>01110110</td><td>76</td><td>118</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
-                <tr><td>01110111</td><td>77</td><td>119</td><td>Undefined</td><td>?</td><td>&nbsp;</td></tr>
-                <tr><td>01111000</td><td>78</td><td>120</td><td>All Sound Off</td><td>0</td><td>&nbsp;</td></tr>
-                <tr><td>01111001</td><td>79</td><td>121</td><td>* Reset All Controllers</td><td>0</td><td>&nbsp;</td></tr>
+                <tr><td>01100110</td><td>66</td><td>102</td><td>Undefined</td><td>?</td><td>-</td></tr>
+                <tr><td>01100111</td><td>67</td><td>103</td><td>Undefined</td><td>?</td><td>-</td></tr>
+                <tr><td>01101000</td><td>68</td><td>104</td><td>Undefined</td><td>?</td><td>-</td></tr>
+                <tr><td>01101001</td><td>69</td><td>105</td><td>Undefined</td><td>?</td><td>-</td></tr>
+                <tr><td>01101010</td><td>6A</td><td>106</td><td>Undefined</td><td>?</td><td>-</td></tr>
+                <tr><td>01101011</td><td>6B</td><td>107</td><td>Undefined</td><td>?</td><td>-</td></tr>
+                <tr><td>01101100</td><td>6C</td><td>108</td><td>Undefined</td><td>?</td><td>-</td></tr>
+                <tr><td>01101101</td><td>6D</td><td>109</td><td>Undefined</td><td>?</td><td>-</td></tr>
+                <tr><td>01101110</td><td>6E</td><td>110</td><td>Undefined</td><td>?</td><td>-</td></tr>
+                <tr><td>01101111</td><td>6F</td><td>111</td><td>Undefined</td><td>?</td><td>-</td></tr>
+                <tr><td>01110000</td><td>70</td><td>112</td><td>Undefined</td><td>?</td><td>-</td></tr>
+                <tr><td>01110001</td><td>71</td><td>113</td><td>Undefined</td><td>?</td><td>-</td></tr>
+                <tr><td>01110010</td><td>72</td><td>114</td><td>Undefined</td><td>?</td><td>-</td></tr>
+                <tr><td>01110011</td><td>73</td><td>115</td><td>Undefined</td><td>?</td><td>-</td></tr>
+                <tr><td>01110100</td><td>74</td><td>116</td><td>Undefined</td><td>?</td><td>-</td></tr>
+                <tr><td>01110101</td><td>75</td><td>117</td><td>Undefined</td><td>?</td><td>-</td></tr>
+                <tr><td>01110110</td><td>76</td><td>118</td><td>Undefined</td><td>?</td><td>-</td></tr>
+                <tr><td>01110111</td><td>77</td><td>119</td><td>Undefined</td><td>?</td><td>-</td></tr>
+                <tr><td>01111000</td><td>78</td><td>120</td><td>All Sound Off</td><td>0</td><td>-</td></tr>
+                <tr><td>01111001</td><td>79</td><td>121</td><td>* Reset All Controllers</td><td>0</td><td>-</td></tr>
                 <tr><td>01111010</td><td>7A</td><td>122</td><td>Local control on/off</td><td>0=off</td><td>127=on</td></tr>   
-                <tr><td>01111011</td><td>7B</td><td>123</td><td>* All notes off</td><td>0</td><td>&nbsp;</td></tr>
-                <tr><td>01111100</td><td>7C</td><td>124</td><td>Omni mode off (+ all notes off)</td><td>0</td><td>&nbsp;</td></tr>
-                <tr><td>01111101</td><td>7D</td><td>125</td><td>Omni mode on (+ all notes off)</td><td>0</td><td>&nbsp;</td></tr>
-                <tr><td>01111110</td><td>7E</td><td>126</td><td>Poly mode on/off (+ all notes off)</td><td>**</td><td>&nbsp;</td></tr>
-                <tr><td>01111111</td><td>7F</td><td>127</td><td>Poly mode on (incl mono=off +all notes off)</td><td>0</td><td>&nbsp;</td></tr>
+                <tr><td>01111011</td><td>7B</td><td>123</td><td>* All notes off</td><td>0</td><td>-</td></tr>
+                <tr><td>01111100</td><td>7C</td><td>124</td><td>Omni mode off (+ all notes off)</td><td>0</td><td>-</td></tr>
+                <tr><td>01111101</td><td>7D</td><td>125</td><td>Omni mode on (+ all notes off)</td><td>0</td><td>-</td></tr>
+                <tr><td>01111110</td><td>7E</td><td>126</td><td>Poly mode on/off (+ all notes off)</td><td>**</td><td>-</td></tr>
+                <tr><td>01111111</td><td>7F</td><td>127</td><td>Poly mode on (incl mono=off +all notes off)</td><td>0</td><td>-</td></tr>
                 </tbody></table>
                 * Equipment must respond in order to comply with General MIDI level 1.<br>
                 ** This equals the number of channels, or zero if the number of channels
@@ -835,7 +844,7 @@
                 <tr><td>6</td><td>84</td><td>85</td><td>86</td><td>87</td><td>88</td><td>89</td><td>90</td><td>91</td><td>92</td><td>93</td><td>94</td><td>95</td></tr>
                 <tr><td>7</td><td>96</td><td>97</td><td>98</td><td>99</td><td>100</td><td>101</td><td>102</td><td>103</td><td>104</td><td>105</td><td>106</td><td>107</td></tr>
                 <tr><td>8</td><td>108</td><td>109</td><td>110</td><td>111</td><td>112</td><td>113</td><td>114</td><td>115</td><td>116</td><td>117</td><td>118</td><td>119</td></tr>
-                <tr><td>9</td><td>120</td><td>121</td><td>122</td><td>123</td><td>124</td><td>125</td><td>126</td><td>127</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                <tr><td>9</td><td>120</td><td>121</td><td>122</td><td>123</td><td>124</td><td>125</td><td>126</td><td>127</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
                 </tbody></table>
                 </p>
             </div>
@@ -986,7 +995,7 @@
                 <tr><td>55</td><td>G3</td><td>Splash Cymbal</td><td>79</td><td>G5</td><td>Open Cuica</td></tr>
                 <tr><td>56</td><td>G#3</td><td>Cowbell</td><td>80</td><td>G#5</td><td>Mute Triangle</td></tr>
                 <tr><td>57</td><td>A3</td><td>Crash Cymbal 2</td><td>81</td><td>A5</td><td>Open Triangle</td></tr>
-                <tr><td>58</td><td>A#3</td><td>Vibraslap</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                <tr><td>58</td><td>A#3</td><td>Vibraslap</td><td>-</td><td>-</td><td>-</td></tr>
                 </tbody></table>
                 </p>
             </div>
@@ -1041,8 +1050,8 @@
             <img src="img/test.gif" alt="Sheet music Picture Here" class="sheet-music">
 
             <p>The contents of the MIDI stream represented by this example are broken down here:</p>
-
-            <table border="1">
+            <div class="table-overflow">
+                <table border="1">
                 <tbody><tr><th>Delta-Time<br> (decimal)</th><th>Event-Code<br> (hex)</th><th>Other Bytes<br> (decimal)</th><th>Comment</th></tr>
                 <tr><td>0 </td><td>FF 58 </td><td>04 04 02 24 08 </td><td>4 bytes; 4/4 time; 24 MIDI clocks/click, 8 32nd notes/ 24 MIDI clocks (24 MIDI clocks = 1 crotchet = 1 beat)</td></tr>
                 <tr><td>0 </td><td>FF 51 </td><td>03 500000 </td><td>3 bytes: 500,000 usec/ quarter note = 120 beats/minute</td></tr>
@@ -1059,97 +1068,133 @@
                 <tr><td>0 </td><td>80 </td><td>76 64 </td><td>Ch.1 Note Off E5, standard</td></tr>
                 <tr><td>0 </td><td>FF 2F </td><td>00 </td><td>Track End</td></tr>
                 </tbody></table>
+            </div>
+            
                 The entire format 0 MIDI file contents in hex follow. First, the header chunk:
-                <table border="1">
-                <tbody><tr><td>4D 54 68 64 </td><td>MThd</td></tr>
-                <tr><td>00 00 00 06 </td><td>chunk length</td></tr>
-                <tr><td>00 00 </td><td>format 0</td></tr>
-                <tr><td>00 01 </td><td>one track</td></tr>
-                <tr><td>00 60 </td><td>96 per quarter-note</td></tr>
-                </tbody></table>
+                <div class="table-overflow">
+                    <table border="1">
+                    <tbody><tr><td>4D 54 68 64 </td><td>MThd</td></tr>
+                    <tr><td>00 00 00 06 </td><td>chunk length</td></tr>
+                    <tr><td>00 00 </td><td>format 0</td></tr>
+                    <tr><td>00 01 </td><td>one track</td></tr>
+                    <tr><td>00 60 </td><td>96 per quarter-note</td></tr>
+                    </tbody></table>
+                </div>
+                
                 Then the track chunk. Its header followed by the events (notice the running status is used in places):
-                <table border="1">
-                <tbody><tr><td>4D 54 72 6B </td><td>MTrk</td></tr>
-                <tr><td> 00 00 00 3B </td><td>chunk length (59)</td></tr>
-                </tbody></table>
-                <table border="1">
-                <tbody><tr><th>Delta-Time </th><th>Event </th><th>Comments</th></tr>
-                <tr><td>00 </td><td>FF 58 04 04 02 18 08 </td><td>time signature</td></tr>
-                <tr><td>00 </td><td>FF 51 03 07 A1 20 </td><td>tempo</td></tr>
-                <tr><td>00 </td><td>C0 05 </td><td>&nbsp;</td></tr>
-                <tr><td>00 </td><td>C1 2E</td><td>&nbsp;</td></tr>
-                <tr><td>00 </td><td>C2 46</td><td>&nbsp;</td></tr>
-                <tr><td>00 </td><td>92 30 60</td><td>&nbsp;</td></tr>
-                <tr><td>00 </td><td>3C 60 </td><td>running status</td></tr>
-                <tr><td>60 </td><td>91 43 40</td><td>&nbsp;</td></tr>
-                <tr><td>60 </td><td>90 4C 20</td><td>&nbsp;</td></tr>
-                <tr><td>81 40 </td><td>82 30 40 </td><td>two-byte delta-time</td></tr>
-                <tr><td>00 </td><td>3C 40 </td><td>running status</td></tr>
-                <tr><td>00 </td><td>81 43 40</td><td>&nbsp;</td></tr>
-                <tr><td>00 </td><td>80 4C 40</td><td>&nbsp;</td></tr>
-                <tr><td>00 </td><td>FF 2F 00 </td><td>end of track</td></tr>
-                </tbody></table>
+                <div class="table-overflow">
+                    <table border="1">
+                    <tbody><tr><td>4D 54 72 6B </td><td>MTrk</td></tr>
+                    <tr><td> 00 00 00 3B </td><td>chunk length (59)</td></tr>
+                    </tbody></table>
+                    <table border="1">
+                    <tbody><tr><th>Delta-Time </th><th>Event </th><th>Comments</th></tr>
+                    <tr><td>00 </td><td>FF 58 04 04 02 18 08 </td><td>time signature</td></tr>
+                    <tr><td>00 </td><td>FF 51 03 07 A1 20 </td><td>tempo</td></tr>
+                    <tr><td>00 </td><td>C0 05 </td><td>-</td></tr>
+                    <tr><td>00 </td><td>C1 2E</td><td>-</td></tr>
+                    <tr><td>00 </td><td>C2 46</td><td>-</td></tr>
+                    <tr><td>00 </td><td>92 30 60</td><td>-</td></tr>
+                    <tr><td>00 </td><td>3C 60 </td><td>running status</td></tr>
+                    <tr><td>60 </td><td>91 43 40</td><td>-</td></tr>
+                    <tr><td>60 </td><td>90 4C 20</td><td>-</td></tr>
+                    <tr><td>81 40 </td><td>82 30 40 </td><td>two-byte delta-time</td></tr>
+                    <tr><td>00 </td><td>3C 40 </td><td>running status</td></tr>
+                    <tr><td>00 </td><td>81 43 40</td><td>-</td></tr>
+                    <tr><td>00 </td><td>80 4C 40</td><td>-</td></tr>
+                    <tr><td>00 </td><td>FF 2F 00 </td><td>end of track</td></tr>
+                    </tbody></table>
+                </div>
+                
                 A format 1 representation of the file is slightly different.
                 Its header chunk:
-                <table border="1">
+                <div class="table-overflow">
+                    <table border="1">
                 <tbody><tr><td>4D 54 68 64 </td><td>MThd</td></tr>
                 <tr><td>00 00 00 06 </td><td>chunk length</td></tr>
                 <tr><td>00 01 </td><td>format 1</td></tr>
                 <tr><td>00 04 </td><td>four tracks</td></tr>
                 <tr><td>00 60 </td><td>96 per quarter note</td></tr>
                 </tbody></table>
+                </div>
+                
                 First, the track chunk for the time signature/tempo track. Its
                 header, followed by the events:
-                <table border="1">
+                <div class="table-overflow">
+                    <table border="1">
                 <tbody><tr><td>4D 54 72 6B </td><td>MTrk</td></tr>
                 <tr><td>00 00 00 14 </td><td>chunk length (20)</td></tr>
                 </tbody></table>
-                <table border="1">
+                </div>
+                <div class="table-overflow">
+                    <table border="1">
                 <tbody><tr><th>Delta-Time </th><th>Event </th><th>Comments</th></tr>
                 <tr><td>00 </td><td>FF 58 04 04 02 18 08 </td><td>time signature</td></tr>
                 <tr><td>00 </td><td>FF 51 03 07 A1 20 </td><td>tempo</td></tr>
                 <tr><td>83 00 </td><td>FF 2F 00 </td><td>end of track</td></tr>
                 </tbody></table>
+                </div>
+                
                 Then, the track chunk for the first music track. The MIDI
                 convention for note on/off running status is used in this
                 example:
-                <table border="1">
-                <tbody><tr><td>4D 54 72 6B </td><td>MTrk</td></tr>
-                <tr><td>00 00 00 10 </td><td>chunk length (16)</td></tr>
-                </tbody></table>
-                <table border="1">
-                <tbody><tr><th>Delta-Time </th><th>Event </th><th>Comments</th></tr>
-                <tr><td>00 </td><td>C0 05</td><td>&nbsp;</td></tr>
-                <tr><td>81 40 </td><td>90 4C 20</td><td>&nbsp;</td></tr>
-                <tr><td>81 40 </td><td>4C 00 </td><td>Running status: note on, vel=0</td></tr>
-                <tr><td>00 FF 2F 00</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-                </tbody></table>
+                <div class="table-overflow">
+                    <table border="1">
+                    <tbody><tr><td>4D 54 72 6B </td><td>MTrk</td></tr>
+                    <tr><td>00 00 00 10 </td><td>chunk length (16)</td></tr>
+                    </tbody></table>
+                </div>
+                
+
+                <div class="table-overflow">
+                    <table border="1">
+                    <tbody><tr><th>Delta-Time </th><th>Event </th><th>Comments</th></tr>
+                    <tr><td>00 </td><td>C0 05</td><td>-</td></tr>
+                    <tr><td>81 40 </td><td>90 4C 20</td><td>-</td></tr>
+                    <tr><td>81 40 </td><td>4C 00 </td><td>Running status: note on, vel=0</td></tr>
+                    <tr><td>00 FF 2F 00</td><td>-</td><td>-</td></tr>
+                    </tbody></table>
+                </div>
+                
                 Then, the track chunk for the second music track:
-                <table border="1">
-                <tbody><tr><td>4D 54 72 6B </td><td>MTrk</td></tr>
-                <tr><td>00 00 00 0F </td><td>chunk length (15)</td></tr>
-                </tbody></table>
-                <table border="1">
-                <tbody><tr><th>Delta-Time </th><th>Event </th><th>Comments</th></tr>
-                <tr><td>00 </td><td>C1 2E</td><td>&nbsp;</td></tr>
-                <tr><td>60 </td><td>91 43 40</td><td>&nbsp;</td></tr>
-                <tr><td>82 20 </td><td>43 00 </td><td>running status</td></tr>
-                <tr><td>00 </td><td>FF 2F 00 </td><td>end of track</td></tr>
-                </tbody></table>
+                <div class="table-overflow">
+                    <table border="1">
+                    <tbody><tr><td>4D 54 72 6B </td><td>MTrk</td></tr>
+                    <tr><td>00 00 00 0F </td><td>chunk length (15)</td></tr>
+                    </tbody></table>
+                </div>
+                
+
+                <div class="table-overflow">
+                    <table border="1">
+                    <tbody><tr><th>Delta-Time </th><th>Event </th><th>Comments</th></tr>
+                    <tr><td>00 </td><td>C1 2E</td><td>-</td></tr>
+                    <tr><td>60 </td><td>91 43 40</td><td>-</td></tr>
+                    <tr><td>82 20 </td><td>43 00 </td><td>running status</td></tr>
+                    <tr><td>00 </td><td>FF 2F 00 </td><td>end of track</td></tr>
+                    </tbody></table>
+                </div>
+                
                 Then, the track chunk for the third music track:
-                <table border="1">
-                <tbody><tr><td>4D 54 72 6B </td><td>MTrk</td></tr>
-                <tr><td>00 00 00 15 </td><td>chunk length (21)</td></tr>
-                </tbody></table>
-                <table border="1">
-                <tbody><tr><th>Delta-Time </th><th>Event </th><th>Comments</th></tr>
-                <tr><td>00 </td><td>C2 46</td><td>&nbsp;</td></tr>
-                <tr><td>00 </td><td>92 30 60</td><td>&nbsp;</td></tr>
-                <tr><td>00 </td><td>3C 60 </td><td>running status</td></tr>
-                <tr><td>83 00 </td><td>30 00 </td><td>two-byte delta-time, running status</td></tr>
-                <tr><td>00 </td><td>3C 00 </td><td>running status</td></tr>
-                <tr><td> 00 </td><td>FF 2F 00 </td><td>end of track</td></tr>
-                </tbody></table>
+                <div class="table-overflow">
+                    <table border="1">
+                        <tbody><tr><td>4D 54 72 6B </td><td>MTrk</td></tr>
+                        <tr><td>00 00 00 15 </td><td>chunk length (21)</td></tr>
+                        </tbody></table>
+                </div>
+                
+                <div class="table-overflow">
+                    <table border="1">
+                        <tbody><tr><th>Delta-Time </th><th>Event </th><th>Comments</th></tr>
+                        <tr><td>00 </td><td>C2 46</td><td>-</td></tr>
+                        <tr><td>00 </td><td>92 30 60</td><td>-</td></tr>
+                        <tr><td>00 </td><td>3C 60 </td><td>running status</td></tr>
+                        <tr><td>83 00 </td><td>30 00 </td><td>two-byte delta-time, running status</td></tr>
+                        <tr><td>00 </td><td>3C 00 </td><td>running status</td></tr>
+                        <tr><td> 00 </td><td>FF 2F 00 </td><td>end of track</td></tr>
+                        </tbody></table>
+                </div>
+                
 
                 END.
         </div>     
