@@ -16,7 +16,7 @@ window.addEventListener('load', ()=>{
             hamburgerIcon.src = './img/hamburger.svg';
             navLinks.classList.remove('open');
             if(navLinkClicked){
-                window.scrollTo(0,window.scrollY+150);
+                window.scrollTo(0,window.scrollY+175);
                 navLinkClicked = false;
             }
         }
