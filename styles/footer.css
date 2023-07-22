@@ -28,7 +28,7 @@ footer{
     margin-top: 10px; 
 }
 
-.footer-texts>a:hover{
+.footer-texts>a>span:hover{
     color: rgba(255, 255, 255, 0.668);
 }
 
