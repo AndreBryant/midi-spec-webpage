@@ -9,6 +9,8 @@ window.addEventListener('load', () => {
         value = (value === 0)? 1:0;
         all.style.filter = `invert(${value})`;
         localStorage.setItem('value', value);
+
+        darkToggle.childNodes[0].src = (value === 1)? './img/dark.svg': './img/light.svg';
     })
     
     darkToggle.addEventListener('mousedown', () => {
