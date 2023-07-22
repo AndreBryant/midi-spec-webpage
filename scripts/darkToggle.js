@@ -3,19 +3,21 @@ window.addEventListener('load', () => {
     var all = document.querySelector('html');
     var value = (localStorage.getItem('value') !== null)? Number(localStorage.getItem('value')) : 0;
 
-    all.style.filter = `invert(${value})`;
-
+    function doThis(){
+        all.style.filter = `invert(${value})`;
+        darkToggle.childNodes[0].src = (value === 1)? './img/dark.svg': './img/light.svg';
+    }
+    
+    doThis();
+    
     darkToggle.addEventListener('click', () => {
         value = (value === 0)? 1:0;
-        all.style.filter = `invert(${value})`;
         localStorage.setItem('value', value);
-
-        darkToggle.childNodes[0].src = (value === 1)? './img/dark.svg': './img/light.svg';
+        doThis();
     })
     
     darkToggle.addEventListener('mousedown', () => {
         darkToggle.classList.add('active'); 
-        setTimeout(()=>{darkToggle.classList.remove('active')}
-        ,1000)
+        setTimeout(()=>{darkToggle.classList.remove('active')},1000);
     });
 })
