@@ -26,6 +26,10 @@ body {
     color: white;
 }
 
+p {
+    opacity: 0.5;
+}
+
 /* Create a custom scrollbar style. Created by Chat GPT */
 body::-webkit-scrollbar {
     width: 10px; /* Set the width of the custom scrollbar */
